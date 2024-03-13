@@ -3,8 +3,6 @@ package com.starter.spring.controller;
 import com.starter.spring.dto.FirstEntityDTO;
 import com.starter.spring.service.firstEntity.FirstEntityService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +13,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/example")
 @RequiredArgsConstructor
-@Slf4j
 public class FirstEntityController {
 
-    @Autowired
-    private FirstEntityService firstEntityService;
+    private final FirstEntityService firstEntityService;
 
     @GetMapping("/")
     public ResponseEntity<List<FirstEntityDTO>> listAll() {

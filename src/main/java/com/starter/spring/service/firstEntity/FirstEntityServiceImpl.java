@@ -5,22 +5,17 @@ import com.starter.spring.mapper.MapperFirstEntity;
 import com.starter.spring.model.FirstEntity;
 import com.starter.spring.repository.FirstEntityRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class FirstEntityServiceImpl implements FirstEntityService {
 
-    @Autowired
-    private FirstEntityRepository repository;
+    private final FirstEntityRepository repository;
 
-    @Autowired
-    private MapperFirstEntity mapper;
+    private final MapperFirstEntity mapper;
 
     @Override
     public FirstEntityDTO save(FirstEntityDTO dto) {
