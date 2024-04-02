@@ -1,13 +1,14 @@
 package com.starter.spring.service.firstEntity;
 
 import com.starter.spring.dto.FirstEntityDTO;
+import com.starter.spring.dto.InfoDTO;
 
 import java.util.List;
 
 public interface FirstEntityService {
 
-    FirstEntityDTO save(FirstEntityDTO dto);
+    InfoDTO<FirstEntityDTO> save(FirstEntityDTO dto);
 
-    List<FirstEntityDTO> list();
+    InfoDTO<List<FirstEntityDTO>> list();
 
 }
