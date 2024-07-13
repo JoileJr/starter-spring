@@ -20,14 +20,10 @@ public class FirstEntityServiceImpl implements FirstEntityService {
     private final MapperFirstEntity mapper;
 
     @Override
-    public InfoDTO<FirstEntityDTO> save(FirstEntityDTO dto) {
-        InfoDTO<FirstEntityDTO> infoDTO = new InfoDTO<>();
+    public FirstEntityDTO save(FirstEntityDTO dto) {
         FirstEntity firstEntity = repository.save(mapper.toEntity(dto));
-        infoDTO.setMessage("Listagem concluida com sucesso");
-        infoDTO.setStatus(HttpStatus.OK);
-        infoDTO.setObject(mapper.toDto(firstEntity));
-        infoDTO.setSuccess(true);
-        return infoDTO;
+        FirstEntityDTO firstEntityDTO = mapper.toDto(firstEntity);
+        return firstEntityDTO;
     }
 
     @Override

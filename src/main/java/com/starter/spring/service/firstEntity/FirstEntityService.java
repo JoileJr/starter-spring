@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FirstEntityService {
 
-    InfoDTO<FirstEntityDTO> save(FirstEntityDTO dto);
+    FirstEntityDTO save(FirstEntityDTO dto);
 
     InfoDTO<List<FirstEntityDTO>> list();
 
