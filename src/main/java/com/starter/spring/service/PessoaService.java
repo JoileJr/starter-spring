@@ -1,11 +1,11 @@
 package com.starter.spring.service;
 
-import com.starter.spring.dto.FirstEntityDTO;
+import com.starter.spring.dto.PessoaDTO;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
 import com.starter.spring.exceptions.ObjectnotFoundException;
-import com.starter.spring.mapper.MapperFirstEntity;
-import com.starter.spring.model.FirstEntity;
-import com.starter.spring.repository.FirstEntityRepository;
+import com.starter.spring.mapper.MapperPessoa;
+import com.starter.spring.model.Pessoa;
+import com.starter.spring.repository.PessoaRepository;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,44 +16,44 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class FirstEntityService {
+public class PessoaService {
 
-    private final FirstEntityRepository repository;
+    private final PessoaRepository repository;
 
-    private final MapperFirstEntity mapper;
+    private final MapperPessoa mapper;
 
-    public FirstEntityDTO findById(Long id) {
-		Optional<FirstEntity> obj = repository.findById(id);
+    public PessoaDTO findById(Long id) {
+		Optional<Pessoa> obj = repository.findById(id);
 		return mapper.toDto(obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id)));
 	}
 
-    public List<FirstEntityDTO> list() {
-        List<FirstEntity> firstEntityList = repository.findAll();
+    public List<PessoaDTO> list() {
+        List<Pessoa> firstEntityList = repository.findAll();
         return mapper.toListDto(firstEntityList);
     }
 
-    public FirstEntityDTO create(FirstEntityDTO objDTO) {
+    public PessoaDTO create(PessoaDTO objDTO) {
         validaPorEmail(objDTO);
-		FirstEntity firstEntity = repository.save(mapper.toEntity(objDTO));
-        FirstEntityDTO firstEntityDTO = mapper.toDto(firstEntity);
+		Pessoa firstEntity = repository.save(mapper.toEntity(objDTO));
+        PessoaDTO firstEntityDTO = mapper.toDto(firstEntity);
         return firstEntityDTO;
 	}
  
-	public FirstEntityDTO update(Long id, @Valid FirstEntityDTO objDTO) {
+	public PessoaDTO update(Long id, @Valid PessoaDTO objDTO) {
         validaPorEmail(objDTO);
 		objDTO.setId(id);
-		FirstEntityDTO oldObj = findById(id);
+		PessoaDTO oldObj = findById(id);
         oldObj = mapper.toDto(repository.save(mapper.toEntity(objDTO)));
 		return oldObj;
 	}
 
     public void delete(Long id) {
-		FirstEntityDTO obj = findById(id);
+		PessoaDTO obj = findById(id);
 		repository.deleteById(obj.getId());
 	}
 
-    private void validaPorEmail(FirstEntityDTO objDTO) {
-         Optional<FirstEntity> obj = repository.findByEmail(objDTO.getEmail());
+    private void validaPorEmail(PessoaDTO objDTO) {
+         Optional<Pessoa> obj = repository.findByEmail(objDTO.getEmail());
         if (obj.isPresent() && obj.get().getId() != objDTO.getId()) {
             throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
         }

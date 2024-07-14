@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
-public class FirstEntityDTO {
+public class PessoaDTO {
     private Long id;
 
     @NotNull(message = "O campo username é requerido")

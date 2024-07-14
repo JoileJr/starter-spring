@@ -1,7 +1,7 @@
 package com.starter.spring.controller;
 
-import com.starter.spring.dto.FirstEntityDTO;
-import com.starter.spring.service.FirstEntityService;
+import com.starter.spring.dto.PessoaDTO;
+import com.starter.spring.service.PessoaService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,40 +14,40 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/example")
+@RequestMapping("/person")
 @RequiredArgsConstructor
-public class FirstEntityController {
+public class PessoaController {
 
-    private final FirstEntityService firstEntityService;
+    private final PessoaService pessoaService;
 
     @GetMapping("/")
-    public ResponseEntity<List<FirstEntityDTO>> listAll() {
-        List<FirstEntityDTO> list = firstEntityService.list();
+    public ResponseEntity<List<PessoaDTO>> listAll() {
+        List<PessoaDTO> list = pessoaService.list();
         return ResponseEntity.ok(list);
     }
 
     @GetMapping(value = "/{id}")
-	public ResponseEntity<FirstEntityDTO> findById(@PathVariable Long id) {
-		FirstEntityDTO obj = firstEntityService.findById(id);
+	public ResponseEntity<PessoaDTO> findById(@PathVariable Long id) {
+		PessoaDTO obj = pessoaService.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
     @PostMapping("/")
-    public ResponseEntity<FirstEntityDTO> create(@Valid @RequestBody FirstEntityDTO obj) {
-        FirstEntityDTO firstEntityDTO = firstEntityService.create(obj);
+    public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PessoaDTO obj) {
+        PessoaDTO firstEntityDTO = pessoaService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(firstEntityDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<FirstEntityDTO> update(@PathVariable Long id, @Valid @RequestBody FirstEntityDTO objDTO) {
-		FirstEntityDTO obj = firstEntityService.update(id, objDTO);
+	public ResponseEntity<PessoaDTO> update(@PathVariable Long id, @Valid @RequestBody PessoaDTO objDTO) {
+		PessoaDTO obj = pessoaService.update(id, objDTO);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<FirstEntityDTO> delete(@PathVariable Long id) {
-		firstEntityService.delete(id); 
+	public ResponseEntity<PessoaDTO> delete(@PathVariable Long id) {
+		pessoaService.delete(id); 
 		return ResponseEntity.noContent().build();
 	}
 
