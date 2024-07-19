@@ -1,16 +1,16 @@
 package com.starter.spring.model;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@EqualsAndHashCode(callSuper = false, of = {"id", "username"})
 @Entity
 @Table(name = "Pessoa")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -24,6 +24,27 @@ public class Pessoa {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "telefone", nullable = false)
+    private String telefone;
+
+    @Column(name = "dataNascimento", nullable = false)
+    private Date dataNascimento;
+
+    @Column(name = "sexo", nullable = false)
+    private String sexo;
+
+    @Column(name = "cpf", nullable = false, unique = true)
+    private String cpf;
+
+    @Column(name = "rg", nullable = false)
+    private String rg;
+
+    @Column(name = "dataCadastro", nullable = false)
+    private Date dataCadastro;
+
+    @OneToOne
+    private Endereco endereco;
 }

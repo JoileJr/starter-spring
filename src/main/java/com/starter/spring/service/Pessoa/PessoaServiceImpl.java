@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class PessoaServiceImpl implements PessoaService {
 
     private final PessoaRepository repository;
-    
+
     private final MapperPessoa mapper;
 
     @Override
@@ -30,16 +30,16 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     public List<PessoaDTO> list() {
-        List<Pessoa> firstEntityList = repository.findAll();
-        return mapper.toListDto(firstEntityList);
+        List<Pessoa> list = repository.findAll();
+        return mapper.toListDto(list);
     }
 
     @Override
     public PessoaDTO create(PessoaDTO objDTO) {
         validaPorEmail(objDTO);
-		Pessoa firstEntity = repository.save(mapper.toEntity(objDTO));
-        PessoaDTO firstEntityDTO = mapper.toDto(firstEntity);
-        return firstEntityDTO;
+		Pessoa obj = repository.save(mapper.toEntity(objDTO));
+        PessoaDTO newDto = mapper.toDto(obj);
+        return newDto;
 	}
  
     @Override
