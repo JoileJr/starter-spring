@@ -1,4 +1,8 @@
-package com.starter.spring.service;
+package com.starter.spring.service.Pessoa;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
 
 import com.starter.spring.dto.PessoaDTO;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
@@ -9,29 +13,28 @@ import com.starter.spring.repository.PessoaRepository;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PessoaService {
+public class PessoaServiceImpl implements PessoaService {
 
     private final PessoaRepository repository;
-
+    
     private final MapperPessoa mapper;
 
+    @Override
     public PessoaDTO findById(Long id) {
 		Optional<Pessoa> obj = repository.findById(id);
 		return mapper.toDto(obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id)));
 	}
 
+    @Override
     public List<PessoaDTO> list() {
         List<Pessoa> firstEntityList = repository.findAll();
         return mapper.toListDto(firstEntityList);
     }
 
+    @Override
     public PessoaDTO create(PessoaDTO objDTO) {
         validaPorEmail(objDTO);
 		Pessoa firstEntity = repository.save(mapper.toEntity(objDTO));
@@ -39,6 +42,7 @@ public class PessoaService {
         return firstEntityDTO;
 	}
  
+    @Override
 	public PessoaDTO update(Long id, @Valid PessoaDTO objDTO) {
         validaPorEmail(objDTO);
 		objDTO.setId(id);
@@ -47,16 +51,17 @@ public class PessoaService {
 		return oldObj;
 	}
 
+    @Override
     public void delete(Long id) {
 		PessoaDTO obj = findById(id);
 		repository.deleteById(obj.getId());
 	}
 
-    private void validaPorEmail(PessoaDTO objDTO) {
+    @Override
+    public void validaPorEmail(PessoaDTO objDTO) {
          Optional<Pessoa> obj = repository.findByEmail(objDTO.getEmail());
         if (obj.isPresent() && obj.get().getId() != objDTO.getId()) {
             throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
         }
     }
-
 }

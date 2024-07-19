@@ -1,7 +1,7 @@
 package com.starter.spring.controller;
 
 import com.starter.spring.dto.PessoaDTO;
-import com.starter.spring.service.PessoaService;
+import com.starter.spring.service.Pessoa.PessoaService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
