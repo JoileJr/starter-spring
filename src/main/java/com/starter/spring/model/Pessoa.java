@@ -42,6 +42,15 @@ public class Pessoa {
     @Column(name = "rg", nullable = false)
     private String rg;
 
+    @Column(name = "cns", nullable = false)
+    private String cns;
+
+    @Column(name = "senha", nullable = false)
+    private String senha;
+
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo;
+
     @OneToOne
     private Endereco endereco;
 }

@@ -2,6 +2,7 @@ package com.starter.spring.dto;
 
 import java.util.Date;
 import org.hibernate.validator.constraints.br.CPF;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -32,6 +33,12 @@ public class PessoaDTO {
 
     @NotNull(message = "O campo rg é requerido")
     private String rg;
+
+    private String cns;
+
+    private String senha;
+
+    private Boolean ativo;
 
     private EnderecoDTO endereco;
 }
