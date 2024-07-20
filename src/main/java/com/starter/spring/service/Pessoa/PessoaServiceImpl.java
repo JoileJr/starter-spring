@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 import com.starter.spring.dto.PessoaDTO;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
 import com.starter.spring.exceptions.ObjectnotFoundException;
+import com.starter.spring.mapper.MapperEndereco;
 import com.starter.spring.mapper.MapperPessoa;
+import com.starter.spring.model.Endereco;
 import com.starter.spring.model.Pessoa;
+import com.starter.spring.repository.EnderecoRepository;
 import com.starter.spring.repository.PessoaRepository;
 
 import jakarta.validation.Valid;
@@ -19,8 +22,10 @@ import lombok.RequiredArgsConstructor;
 public class PessoaServiceImpl implements PessoaService {
 
     private final PessoaRepository repository;
+    private final EnderecoRepository enderecoRepository;
 
     private final MapperPessoa mapper;
+    private final MapperEndereco mappeEndereco;
 
     @Override
     public PessoaDTO findById(Long id) {
@@ -37,6 +42,8 @@ public class PessoaServiceImpl implements PessoaService {
     @Override
     public PessoaDTO create(PessoaDTO objDTO) {
         validaPorEmail(objDTO);
+        Endereco endereco = enderecoRepository.save(mappeEndereco.toEntity(objDTO.getEndereco()));
+        objDTO.setEndereco(mappeEndereco.toDto(endereco));
 		Pessoa obj = repository.save(mapper.toEntity(objDTO));
         PessoaDTO newDto = mapper.toDto(obj);
         return newDto;
@@ -47,6 +54,8 @@ public class PessoaServiceImpl implements PessoaService {
         validaPorEmail(objDTO);
 		objDTO.setId(id);
 		PessoaDTO oldObj = findById(id);
+        Endereco endereco = enderecoRepository.save(mappeEndereco.toEntity(objDTO.getEndereco()));
+        objDTO.setEndereco(mappeEndereco.toDto(endereco));
         oldObj = mapper.toDto(repository.save(mapper.toEntity(objDTO)));
 		return oldObj;
 	}

@@ -42,9 +42,6 @@ public class Pessoa {
     @Column(name = "rg", nullable = false)
     private String rg;
 
-    @Column(name = "dataCadastro", nullable = false)
-    private Date dataCadastro;
-
     @OneToOne
     private Endereco endereco;
 }
