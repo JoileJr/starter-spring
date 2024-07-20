@@ -25,7 +25,7 @@ public class PessoaServiceImpl implements PessoaService {
     private final EnderecoRepository enderecoRepository;
 
     private final MapperPessoa mapper;
-    private final MapperEndereco mappeEndereco;
+    private final MapperEndereco mapperEndereco;
 
     @Override
     public PessoaDTO findById(Long id) {
@@ -42,8 +42,8 @@ public class PessoaServiceImpl implements PessoaService {
     @Override
     public PessoaDTO create(PessoaDTO objDTO) {
         validaPorEmail(objDTO);
-        Endereco endereco = enderecoRepository.save(mappeEndereco.toEntity(objDTO.getEndereco()));
-        objDTO.setEndereco(mappeEndereco.toDto(endereco));
+        Endereco endereco = enderecoRepository.save(mapperEndereco.toEntity(objDTO.getEndereco()));
+        objDTO.setEndereco(mapperEndereco.toDto(endereco));
 		Pessoa obj = repository.save(mapper.toEntity(objDTO));
         PessoaDTO newDto = mapper.toDto(obj);
         return newDto;
@@ -54,8 +54,8 @@ public class PessoaServiceImpl implements PessoaService {
         validaPorEmail(objDTO);
 		objDTO.setId(id);
 		PessoaDTO oldObj = findById(id);
-        Endereco endereco = enderecoRepository.save(mappeEndereco.toEntity(objDTO.getEndereco()));
-        objDTO.setEndereco(mappeEndereco.toDto(endereco));
+        Endereco endereco = enderecoRepository.save(mapperEndereco.toEntity(objDTO.getEndereco()));
+        objDTO.setEndereco(mapperEndereco.toDto(endereco));
         oldObj = mapper.toDto(repository.save(mapper.toEntity(objDTO)));
 		return oldObj;
 	}
@@ -68,7 +68,7 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     public void validaPorEmail(PessoaDTO objDTO) {
-         Optional<Pessoa> obj = repository.findByEmail(objDTO.getEmail());
+        Optional<Pessoa> obj = repository.findByEmail(objDTO.getEmail());
         if (obj.isPresent() && obj.get().getId() != objDTO.getId()) {
             throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
         }
