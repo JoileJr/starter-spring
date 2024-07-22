@@ -1,7 +1,7 @@
 package com.starter.spring.enums;
 
 public enum Perfil {
-	ADMIN(0, "ROLE_ADMIN"), CLIENTE(1, "ROLE_FUNCIONARIO"), TECNICO(2, "ROLE_CLIENTE");
+	ADMIN(0, "ROLE_ADMIN"), FUNCIONARIO(1, "ROLE_FUNCIONARIO"), CLIENTE(2, "ROLE_CLIENTE");
 	
 	private Integer codigo;
 	private String descricao;
