@@ -4,6 +4,8 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.starter.spring.enums.Perfil;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -47,6 +49,9 @@ public class Pessoa {
 
     @Column(name = "senha", nullable = false)
     private String senha;
+
+    @Column(name = "perfil", nullable = false)
+    private Perfil perfil;
 
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;

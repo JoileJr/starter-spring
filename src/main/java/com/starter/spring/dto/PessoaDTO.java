@@ -3,6 +3,8 @@ package com.starter.spring.dto;
 import java.util.Date;
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.starter.spring.enums.Perfil;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -36,7 +38,11 @@ public class PessoaDTO {
 
     private String cns;
 
+    @NotNull(message = "O campo senha é requerido")
     private String senha;
+
+    @NotNull(message = "O campo perfil é requerido")
+    private Perfil perfil;
 
     private Boolean ativo;
 
