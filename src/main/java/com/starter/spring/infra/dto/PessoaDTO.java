@@ -1,9 +1,9 @@
-package com.starter.spring.dto;
+package com.starter.spring.infra.dto;
 
 import java.util.Date;
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.starter.spring.enums.Perfil;
+import com.starter.spring.domain.enums.Perfil;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

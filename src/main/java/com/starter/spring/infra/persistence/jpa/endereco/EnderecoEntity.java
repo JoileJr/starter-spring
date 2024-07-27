@@ -1,4 +1,4 @@
-package com.starter.spring.model;
+package com.starter.spring.infra.persistence.jpa.endereco;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "Endereco")
-public class Endereco {
+public class EnderecoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

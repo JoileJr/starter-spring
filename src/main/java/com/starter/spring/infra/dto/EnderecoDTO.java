@@ -1,4 +1,4 @@
-package com.starter.spring.dto;
+package com.starter.spring.infra.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

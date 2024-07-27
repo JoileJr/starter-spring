@@ -1,10 +1,11 @@
-package com.starter.spring.model;
+package com.starter.spring.infra.persistence.jpa.pessoa;
 
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.starter.spring.enums.Perfil;
+import com.starter.spring.domain.enums.Perfil;
+import com.starter.spring.infra.persistence.jpa.endereco.EnderecoEntity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,7 +17,7 @@ import lombok.*;
 @Entity
 @Table(name = "Pessoa")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Pessoa {
+public class PessoaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,5 +58,5 @@ public class Pessoa {
     private Boolean ativo;
 
     @OneToOne
-    private Endereco endereco;
+    private EnderecoEntity endereco;
 }

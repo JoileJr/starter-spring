@@ -1,4 +1,4 @@
-package com.starter.spring.enums;
+package com.starter.spring.domain.enums;
 
 public enum Perfil {
 	ADMIN(0, "ROLE_ADMIN"), FUNCIONARIO(1, "ROLE_FUNCIONARIO"), CLIENTE(2, "ROLE_CLIENTE");
