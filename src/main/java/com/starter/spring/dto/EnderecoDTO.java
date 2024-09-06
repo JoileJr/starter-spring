@@ -11,20 +11,20 @@ public class EnderecoDTO {
     @NotNull(message = "O campo cep é requerido")
     private String cep;
 
-    @NotNull(message = "O campo estado é requerido")
-    private String estado;
+    @NotNull(message = "O campo state é requerido")
+    private String state;
 
-    @NotNull(message = "O campo cidade é requerido")
-    private String cidade;
+    @NotNull(message = "O campo city é requerido")
+    private String city;
     
-    @NotNull(message = "O campo bairro é requerido")
-    private String bairro;
+    @NotNull(message = "O campo neighborhood é requerido")
+    private String neighborhood;
 
-    @NotNull(message = "O campo logradouro é requerido")
-    private String logradouro;
+    @NotNull(message = "O campo publicPlace é requerido")
+    private String publicPlace;
 
-    @NotNull(message = "O campo número é requerido")
-    private String numero;
+    @NotNull(message = "O campo number é requerido")
+    private String number;
 
-    private String complemento;
+    private String complement;
 }

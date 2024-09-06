@@ -17,33 +17,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "endereco")
-public class Endereco {
+@Table(name = "perfil")
+public class Perfil {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "cep", nullable = false)
-    private String cep;
-
-    @Column(name = "estado", nullable = false)
-    private String estado;
-
-    @Column(name = "cidade", nullable = false)
-    private String cidade;
+    @Column(name = "nome", nullable = false)
+    private String nome;
     
-    @Column(name = "bairro", nullable = false)
-    private String bairro;
-
-    @Column(name = "logradouro", nullable = false)
-    private String logradouro;
-
-    @Column(name = "numero", nullable = false)
-    private String numero;
-
-    @Column(name = "complemento", nullable = false)
-    private String complemento;
-
 }

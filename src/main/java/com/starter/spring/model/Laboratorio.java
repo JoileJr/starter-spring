@@ -1,8 +1,6 @@
 package com.starter.spring.model;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -15,9 +13,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "pessoa")
+@Table(name = "laboratorio")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Pessoa {
+public class Laboratorio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,22 +25,25 @@ public class Pessoa {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name = "cpf", nullable = false)
-    private String cpf;
+    @Column(name = "cnpj", nullable = false)
+    private String cnpj;
 
     @Column(name = "telefone", nullable = false)
     private String telefone;
 
-    @Column(name = "sexo", nullable = false)
-    private String sexo;
+    @Column(name = "razaoSocial", nullable = false)
+    private String razaoSocial;
 
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "dataNascimento", nullable = false)
-    private Date dataNascimento;
+    @OneToOne
+    private Endereco endereco;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Perfil> perfis = new HashSet<>();
+    @OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Enfermeiro> enfermeiros;
+
+    @OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Administrativo> administrativos;
 
 }
