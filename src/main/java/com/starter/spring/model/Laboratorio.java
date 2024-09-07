@@ -46,4 +46,7 @@ public class Laboratorio {
     @OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Administrativo> administrativos;
 
+    @OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Exame> exames;
+
 }

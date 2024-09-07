@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
@@ -17,13 +19,5 @@ public class Administrativo extends Pessoa {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "laboratorio_id")
     private Laboratorio laboratorio;
-
-    public Laboratorio getLaboratorio() {
-        return laboratorio;
-    }
-
-    public void setLaboratorio(Laboratorio laboratorio) {
-        this.laboratorio = laboratorio;
-    }
 
 }

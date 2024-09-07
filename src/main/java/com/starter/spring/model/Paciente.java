@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
@@ -22,20 +24,7 @@ public class Paciente extends Pessoa {
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Prontuario> prontuarios;
 
-    public List<Convenio> getConvenios() {
-        return convenios;
-    }
-
-    public void setConvenios(List<Convenio> convenios) {
-        this.convenios = convenios;
-    }
-
-    public List<Prontuario> getProntuarios() {
-        return prontuarios;
-    }
-
-    public void setProntuarios(List<Prontuario> prontuarios) {
-        this.prontuarios = prontuarios;
-    }
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Exame> exames;
 
 }
