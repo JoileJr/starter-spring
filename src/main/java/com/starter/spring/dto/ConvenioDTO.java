@@ -20,4 +20,7 @@ public class ConvenioDTO {
     @NotNull(message = "O campo email é requerido")
     private String email;
 
+    @NotNull(message = "O campo paciente é requerido")
+    private PacienteDTO paciente;
+
 }

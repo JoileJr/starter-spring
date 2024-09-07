@@ -1,15 +1,12 @@
 package com.starter.spring.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AdministrativoDTO extends PessoaDTO {
  
     private LaboratorioDTO laboratorio;
 
-    public LaboratorioDTO getLaboratorio() {
-        return laboratorio;
-    }
-
-    public void setLaboratorio(LaboratorioDTO laboratorio) {
-        this.laboratorio = laboratorio;
-    }
 }

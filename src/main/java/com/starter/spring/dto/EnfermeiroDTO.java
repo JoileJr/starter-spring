@@ -1,7 +1,13 @@
 package com.starter.spring.dto;
 
-import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class EnfermeiroDTO extends PessoaDTO {
     
     @NotNull(message = "O campo coren é requerido")
@@ -9,12 +15,6 @@ public class EnfermeiroDTO extends PessoaDTO {
 
     private LaboratorioDTO laboratorio;
 
-    public LaboratorioDTO getLaboratorio() {
-        return laboratorio;
-    }
-
-    public void setLaboratorio(LaboratorioDTO laboratorio) {
-        this.laboratorio = laboratorio;
-    }
+    private List<ExameDTO> exames;
 
 }
