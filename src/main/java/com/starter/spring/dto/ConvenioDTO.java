@@ -1,5 +1,7 @@
 package com.starter.spring.dto;
 
+import com.starter.spring.model.Convenio;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -22,5 +24,37 @@ public class ConvenioDTO {
 
     @NotNull(message = "O campo paciente é requerido")
     private PacienteDTO paciente;
+
+    public static ConvenioDTO toDTO(Convenio convenio) {
+        if (convenio == null) {
+            return null;
+        }
+
+        ConvenioDTO dto = new ConvenioDTO();
+        dto.setId(convenio.getId());
+        dto.setNome(convenio.getNome());
+        dto.setTipo(convenio.getTipo());
+        dto.setTelefone(convenio.getTelefone());
+        dto.setEmail(convenio.getEmail());
+        dto.setPaciente(PacienteDTO.toDTO(convenio.getPaciente()));
+
+        return dto;
+    }
+
+    public static Convenio toEntity(ConvenioDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Convenio convenio = new Convenio();
+        convenio.setId(dto.getId());
+        convenio.setNome(dto.getNome());
+        convenio.setTipo(convenio.getTipo());
+        convenio.setTelefone(convenio.getTelefone());
+        convenio.setEmail(convenio.getEmail());
+        convenio.setPaciente(PacienteDTO.toEntity(dto.getPaciente()));
+
+        return convenio;
+    }
 
 }

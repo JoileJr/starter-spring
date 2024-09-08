@@ -9,17 +9,20 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Builder
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
+@DiscriminatorValue("enfermeiro")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Enfermeiro extends Pessoa {
 
-    @Column(name = "coren", nullable = false)
+    @Column(name = "coren")
     private String coren;
+
+    @Column(name = "regiao")
+    private String regiao;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "laboratorio_id")
