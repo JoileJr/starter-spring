@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
