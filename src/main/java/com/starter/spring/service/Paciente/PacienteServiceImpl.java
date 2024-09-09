@@ -1,9 +1,6 @@
 package com.starter.spring.service.Paciente;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -68,15 +65,15 @@ public class PacienteServiceImpl implements PacienteService {
         return PacienteDTO.toDTO(paciente);
 	}
 
-    public void validateByEmailAndCpf(PacienteDTO objDTO) {
+    private void validateByEmailAndCpf(PacienteDTO objDTO) {
         Optional<Pessoa> obj = pessoaRepository.findByCpf(objDTO.getCpf());
-		if (obj.isPresent() && obj.get().getId() != objDTO.getId()) {
-			throw new DataIntegrityViolationException("CPF já cadastrado no sistema!");
-		}
+        if (obj.isPresent() && obj.get().getCpf().equals(objDTO.getCpf())) {
+            throw new DataIntegrityViolationException("CPF já cadastrado no sistema!");
+        }
 
-		obj = pessoaRepository.findByEmail(objDTO.getEmail());
-		if (obj.isPresent() && obj.get().getId() != objDTO.getId()) {
-			throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
+        obj = pessoaRepository.findByEmail(objDTO.getEmail());
+        if (obj.isPresent() && obj.get().getEmail().equals(objDTO.getEmail())) {
+            throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
         }
     }
 

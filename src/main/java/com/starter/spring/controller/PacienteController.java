@@ -36,13 +36,13 @@ public class PacienteController {
     }
 
     @GetMapping(value = "/{id}")
-	public ResponseEntity<PessoaDTO> findById(@PathVariable Long id) {
-		PessoaDTO obj = pacienteService.findById(id);
+	public ResponseEntity<PacienteDTO> findById(@PathVariable Long id) {
+        PacienteDTO obj = pacienteService.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
     @PostMapping("/")
-    public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PacienteDTO obj) {
+    public ResponseEntity<PacienteDTO> create(@Valid @RequestBody PacienteDTO obj) {
         PacienteDTO firstEntityDTO = pacienteService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(firstEntityDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();

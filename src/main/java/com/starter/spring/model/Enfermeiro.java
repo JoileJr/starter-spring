@@ -28,7 +28,7 @@ public class Enfermeiro extends Pessoa {
     @JoinColumn(name = "laboratorio_id")
     private Laboratorio laboratorio;
 
-    @OneToMany(mappedBy = "enfermeiro", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "enfermeiro", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Exame> exames;
 
 }
