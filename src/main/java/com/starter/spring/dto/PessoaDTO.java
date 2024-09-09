@@ -1,13 +1,10 @@
 package com.starter.spring.dto;
 
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.starter.spring.model.Perfil;
 import com.starter.spring.model.Pessoa;
 
 import jakarta.validation.constraints.NotNull;
@@ -32,6 +29,8 @@ public class PessoaDTO {
     @NotNull(message = "O campo email é requerido")
     private String email;
 
+    private String senha;
+
     @NotNull(message = "O campo dataNascimento é requerido")
     private Date dataNascimento;
 
@@ -49,6 +48,7 @@ public class PessoaDTO {
         dto.setTelefone(pessoa.getTelefone());
         dto.setSexo(pessoa.getSexo());
         dto.setEmail(pessoa.getEmail());
+        dto.setSenha(pessoa.getSenha());
         dto.setDataNascimento(pessoa.getDataNascimento());
         dto.setPerfis(pessoa.getPerfis().stream()
                         .map(PerfilDTO::toDTO)
@@ -70,6 +70,7 @@ public class PessoaDTO {
         pessoa.setTelefone(dto.getTelefone());
         pessoa.setSexo(dto.getSexo());
         pessoa.setEmail(dto.getEmail());
+        pessoa.setSenha(dto.getSenha());
         pessoa.setDataNascimento(dto.getDataNascimento());
         pessoa.setPerfis(dto.getPerfis().stream()
                         .map(PerfilDTO::toEntity)

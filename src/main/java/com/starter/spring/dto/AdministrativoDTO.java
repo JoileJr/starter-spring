@@ -25,6 +25,7 @@ public class AdministrativoDTO extends PessoaDTO {
         administrativo.setTelefone(dto.getTelefone());
         administrativo.setSexo(dto.getSexo());
         administrativo.setEmail(dto.getEmail());
+        administrativo.setSenha(dto.getSenha());
         administrativo.setDataNascimento(dto.getDataNascimento());
         administrativo.setPerfis(dto.getPerfis().stream()
                         .map(PerfilDTO::toEntity)
@@ -46,6 +47,7 @@ public class AdministrativoDTO extends PessoaDTO {
         dto.setTelefone(administrativo.getTelefone());
         dto.setSexo(administrativo.getSexo());
         dto.setEmail(administrativo.getEmail());
+        dto.setSenha(administrativo.getSenha());
         dto.setDataNascimento(administrativo.getDataNascimento());
         dto.setPerfis(administrativo.getPerfis().stream()
                         .map(PerfilDTO::toDTO)

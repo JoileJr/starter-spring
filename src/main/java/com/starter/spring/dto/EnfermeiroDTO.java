@@ -35,6 +35,7 @@ public class EnfermeiroDTO extends PessoaDTO {
         dto.setTelefone(enfermeiro.getTelefone());
         dto.setSexo(enfermeiro.getSexo());
         dto.setEmail(enfermeiro.getEmail());
+        dto.setSenha(enfermeiro.getSenha());
         dto.setDataNascimento(enfermeiro.getDataNascimento());
         dto.setPerfis(enfermeiro.getPerfis().stream()
                         .map(PerfilDTO::toDTO)
@@ -61,6 +62,7 @@ public class EnfermeiroDTO extends PessoaDTO {
         enfermeiro.setTelefone(dto.getTelefone());
         enfermeiro.setSexo(dto.getSexo());
         enfermeiro.setEmail(dto.getEmail());
+        enfermeiro.setSenha(dto.getSenha());
         enfermeiro.setDataNascimento(dto.getDataNascimento());
         enfermeiro.setPerfis(dto.getPerfis().stream()
                         .map(PerfilDTO::toEntity)

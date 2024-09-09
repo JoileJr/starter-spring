@@ -43,6 +43,9 @@ public class Pessoa {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "senha")
+    private String senha;
+
     @Column(name = "dataNascimento")
     private Date dataNascimento;
 
