@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,48 +14,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.starter.spring.dto.EnderecoDTO;
-import com.starter.spring.service.Endereco.EnderecoService;
+import com.starter.spring.dto.PacienteDTO;
+import com.starter.spring.service.paciente.PacienteService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/address")
+@RequestMapping("/pac")
 @RequiredArgsConstructor
-public class EnderecoController {
+public class PacienteController {
 
-    private final EnderecoService enderecoService;
+    private final PacienteService pacienteService;
 
     @GetMapping("/")
-    public ResponseEntity<List<EnderecoDTO>> listAll() {
-        List<EnderecoDTO> list = enderecoService.list();
+    public ResponseEntity<List<PacienteDTO>> listAll() {
+        List<PacienteDTO> list = pacienteService.findAll();
         return ResponseEntity.ok(list);
     }
 
     @GetMapping(value = "/{id}")
-	public ResponseEntity<EnderecoDTO> findById(@PathVariable Long id) {
-		EnderecoDTO obj = enderecoService.findById(id);
+	public ResponseEntity<PacienteDTO> findById(@PathVariable Long id) {
+        PacienteDTO obj = pacienteService.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
     @PostMapping("/")
-    public ResponseEntity<EnderecoDTO> create(@Valid @RequestBody EnderecoDTO obj) {
-        EnderecoDTO firstEntityDTO = enderecoService.create(obj);
+    public ResponseEntity<PacienteDTO> create(@Valid @RequestBody PacienteDTO obj) {
+        PacienteDTO firstEntityDTO = pacienteService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(firstEntityDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<EnderecoDTO> update(@PathVariable Long id, @Valid @RequestBody EnderecoDTO objDTO) {
-		EnderecoDTO obj = enderecoService.update(id, objDTO);
+	public ResponseEntity<PacienteDTO> update(@PathVariable Long id, @Valid @RequestBody PacienteDTO objDTO) {
+		PacienteDTO obj = pacienteService.update(id, objDTO);
 		return ResponseEntity.ok().body(obj);
 	}
-	
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<EnderecoDTO> delete(@PathVariable Long id) {
-		enderecoService.delete(id); 
-		return ResponseEntity.noContent().build();
-	}
+    
 }

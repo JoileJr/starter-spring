@@ -1,10 +1,11 @@
 package com.starter.spring.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.starter.spring.enums.Perfil;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,8 +15,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "Pessoa")
+@Table(name = "pessoa")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo")
 public class Pessoa {
 
     @Id
@@ -23,39 +26,31 @@ public class Pessoa {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "nome")
+    private String nome;
 
-    @Column(name = "email", nullable = false)
-    private String email;
-
-    @Column(name = "telefone", nullable = false)
-    private String telefone;
-
-    @Column(name = "dataNascimento", nullable = false)
-    private Date dataNascimento;
-
-    @Column(name = "sexo", nullable = false)
-    private String sexo;
-
-    @Column(name = "cpf", nullable = false, unique = true)
+    @Column(name = "cpf")
     private String cpf;
 
-    @Column(name = "rg", nullable = false)
-    private String rg;
+    @Column(name = "telefone")
+    private String telefone;
 
-    @Column(name = "cns", nullable = false)
-    private String cns;
+    @Column(name = "sexo")
+    private String sexo;
 
-    @Column(name = "senha", nullable = false)
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "senha")
     private String senha;
 
-    @Column(name = "perfil", nullable = false)
-    private Perfil perfil;
+    @Column(name = "dataNascimento")
+    private Date dataNascimento;
 
-    @Column(name = "ativo", nullable = false)
-    private Boolean ativo;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(name = "pessoa_perfil",
+               joinColumns = @JoinColumn(name = "pessoa_id"),
+               inverseJoinColumns = @JoinColumn(name = "perfil_id"))
+    private Set<Perfil> perfis = new HashSet<>();
 
-    @OneToOne
-    private Endereco endereco;
 }

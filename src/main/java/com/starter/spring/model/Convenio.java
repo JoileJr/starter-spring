@@ -1,10 +1,13 @@
 package com.starter.spring.model;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,33 +20,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "endereco")
-public class Endereco {
+@Table(name = "convenio")
+public class Convenio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "cep", nullable = false)
-    private String cep;
+    @Column(name = "nome", nullable = false)
+    private String nome;
 
-    @Column(name = "estado", nullable = false)
-    private String estado;
+    @Column(name = "tipo", nullable = false)
+    private String tipo;
 
-    @Column(name = "cidade", nullable = false)
-    private String cidade;
+    @Column(name = "telefone", nullable = false)
+    private String telefone;
+
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "paciente_id")
+    private Paciente paciente;
     
-    @Column(name = "bairro", nullable = false)
-    private String bairro;
-
-    @Column(name = "logradouro", nullable = false)
-    private String logradouro;
-
-    @Column(name = "numero", nullable = false)
-    private String numero;
-
-    @Column(name = "complemento", nullable = false)
-    private String complemento;
-
 }
