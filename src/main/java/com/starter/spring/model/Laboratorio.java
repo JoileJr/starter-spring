@@ -3,6 +3,7 @@ package com.starter.spring.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
@@ -40,13 +41,16 @@ public class Laboratorio {
     @OneToOne
     private Endereco endereco;
 
-    @OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Enfermeiro> enfermeiros;
 
-    @OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Administrativo> administrativos;
 
-    @OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Exame> exames;
 
 }

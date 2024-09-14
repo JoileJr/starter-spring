@@ -3,6 +3,7 @@ package com.starter.spring.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -24,7 +25,8 @@ public class Enfermeiro extends Pessoa {
     @Column(name = "regiao")
     private String regiao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "laboratorio_id")
     private Laboratorio laboratorio;
 

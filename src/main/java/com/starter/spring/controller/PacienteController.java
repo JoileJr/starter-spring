@@ -15,15 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.starter.spring.dto.PacienteDTO;
-import com.starter.spring.dto.PessoaDTO;
-import com.starter.spring.service.Paciente.PacienteService;
+import com.starter.spring.service.paciente.PacienteService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/pacientes")
+@RequestMapping("/pac")
 @RequiredArgsConstructor
 public class PacienteController {
 

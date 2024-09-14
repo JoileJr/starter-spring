@@ -1,11 +1,9 @@
-package com.starter.spring.service.Enfermeiros;
+package com.starter.spring.service.enfermeiro;
 
 import com.starter.spring.dto.EnfermeiroDTO;
-import com.starter.spring.dto.PacienteDTO;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
 import com.starter.spring.exceptions.ObjectnotFoundException;
 import com.starter.spring.model.Enfermeiro;
-import com.starter.spring.model.Paciente;
 import com.starter.spring.model.Perfil;
 import com.starter.spring.model.Pessoa;
 import com.starter.spring.repository.EnfermeiroRepository;
@@ -57,7 +55,6 @@ public class EnfermeiroServiceImpl implements EnfermeiroService {
     @Override
     public EnfermeiroDTO update(Long Id, EnfermeiroDTO objDTO) {
         objDTO.setId(Id);
-        validateByEmailAndCpf(objDTO);
         Set<Perfil> perfis = getDefaultProfiles();
         Enfermeiro enfermeiro = EnfermeiroDTO.toEntity(objDTO);
         enfermeiro.setPerfis(perfis);

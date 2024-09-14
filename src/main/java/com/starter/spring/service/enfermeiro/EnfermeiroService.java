@@ -1,4 +1,4 @@
-package com.starter.spring.service.Enfermeiros;
+package com.starter.spring.service.enfermeiro;
 
 import com.starter.spring.dto.EnfermeiroDTO;
 

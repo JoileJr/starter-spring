@@ -40,7 +40,7 @@ public class Amostra {
     @Column(name = "tipoAmostra")
     private String tipoAmostra;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "exame_id")
     private Exame exame;
 

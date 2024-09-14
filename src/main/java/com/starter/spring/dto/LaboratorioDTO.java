@@ -2,7 +2,6 @@ package com.starter.spring.dto;
 
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.starter.spring.model.Laboratorio;
 
@@ -51,7 +50,7 @@ public class LaboratorioDTO {
         dto.setRazaoSocial(laboratorio.getRazaoSocial());
         dto.setEmail(laboratorio.getEmail());
         dto.setEndereco(EnderecoDTO.toDTO(laboratorio.getEndereco()));
-        dto.setEnfermeiros(laboratorio.getEnfermeiros().stream()
+        /*dto.setEnfermeiros(laboratorio.getEnfermeiros().stream()
                         .map(EnfermeiroDTO::toDTO)
                         .collect(Collectors.toList()));
         dto.setAdministrativos(laboratorio.getAdministrativos().stream()
@@ -59,7 +58,7 @@ public class LaboratorioDTO {
                         .collect(Collectors.toList()));
         dto.setExames(laboratorio.getExames().stream()
                         .map(ExameDTO::toDTO)
-                        .collect(Collectors.toList()));
+                        .collect(Collectors.toList()));*/
 
         return dto;
     }
@@ -77,16 +76,17 @@ public class LaboratorioDTO {
         laboratorio.setRazaoSocial(dto.getRazaoSocial());
         laboratorio.setEmail(dto.getEmail());
         laboratorio.setEndereco(EnderecoDTO.toEntity(dto.getEndereco()));
-        laboratorio.setEnfermeiros(dto.getEnfermeiros().stream()
-                        .map(EnfermeiroDTO::toEntity)
-                        .collect(Collectors.toList()));
-        laboratorio.setAdministrativos(dto.getAdministrativos().stream()
-                        .map(AdministrativoDTO::toEntity)
-                        .collect(Collectors.toList()));
-        laboratorio.setExames(dto.getExames().stream()
-                        .map(ExameDTO::toEntity)
-                        .collect(Collectors.toList()));
-
+        /*
+         * laboratorio.setEnfermeiros(dto.getEnfermeiros().stream()
+         * .map(EnfermeiroDTO::toEntity)
+         * .collect(Collectors.toList()));
+         * laboratorio.setAdministrativos(dto.getAdministrativos().stream()
+         * .map(AdministrativoDTO::toEntity)
+         * .collect(Collectors.toList()));
+         * laboratorio.setExames(dto.getExames().stream()
+         * .map(ExameDTO::toEntity)
+         * .collect(Collectors.toList()));
+         */
         return laboratorio;
     }
 

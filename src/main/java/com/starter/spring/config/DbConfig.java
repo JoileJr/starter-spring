@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.starter.spring.service.Config.ConfigService;
+import com.starter.spring.service.config.ConfigService;
 
 import lombok.RequiredArgsConstructor;
 

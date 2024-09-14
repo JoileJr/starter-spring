@@ -41,9 +41,9 @@ public class TipoExame {
     @Column(name = "descricao")
     private String descricao;
 
-    @OneToMany(mappedBy = "tipoExame", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "tipoExame", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Exame> exames;
 
-    @OneToMany(mappedBy = "tipoExame", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "tipoExame", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Parametro> parametros;
 }

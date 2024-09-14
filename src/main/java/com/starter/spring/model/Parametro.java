@@ -53,7 +53,7 @@ public class Parametro {
     @JoinColumn(name = "tipoExame_id")
     private TipoExame tipoExame;
 
-    @OneToMany(mappedBy = "parametro", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parametro", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ResultadoParametro> ResultadoParametros;
     
 }

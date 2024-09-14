@@ -1,4 +1,4 @@
-package com.starter.spring.service.Config;
+package com.starter.spring.service.config;
 
 
 

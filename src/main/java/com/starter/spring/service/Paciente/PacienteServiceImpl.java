@@ -1,4 +1,4 @@
-package com.starter.spring.service.Paciente;
+package com.starter.spring.service.paciente;
 
 import java.util.*;
 import java.util.stream.Collectors;

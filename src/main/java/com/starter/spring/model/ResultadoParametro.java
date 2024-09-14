@@ -41,11 +41,11 @@ public class ResultadoParametro {
     @Column(name = "nivelDeAlerta")
     private String nivelDeAlerta;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parametro_id")
     private Parametro parametro;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "exame_id")
     private Exame exame;
     

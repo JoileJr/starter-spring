@@ -1,10 +1,8 @@
 package com.starter.spring.controller;
 
 import com.starter.spring.dto.EnfermeiroDTO;
-import com.starter.spring.dto.PacienteDTO;
-import com.starter.spring.dto.PessoaDTO;
-import com.starter.spring.service.Enfermeiros.EnfermeiroService;
-import com.starter.spring.service.Paciente.PacienteService;
+import com.starter.spring.service.enfermeiro.EnfermeiroService;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/enfermeiro")
+@RequestMapping("/enf")
 @RequiredArgsConstructor
 public class EnfermeiroController {
 
