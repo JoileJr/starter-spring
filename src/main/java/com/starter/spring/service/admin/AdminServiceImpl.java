@@ -7,9 +7,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.starter.spring.dto.AdministrativoDTO;
+import com.starter.spring.dto.models.AdministrativoDTO;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
 import com.starter.spring.exceptions.ObjectnotFoundException;
 import com.starter.spring.model.Administrativo;
@@ -52,6 +53,7 @@ public class AdminServiceImpl implements AdminService {
     public AdministrativoDTO create(AdministrativoDTO objDTO) {
         validateByEmailAndCpf(objDTO);
         Set<Perfil> perfis = getDefaultProfiles();
+        objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
         Administrativo administrativo = AdministrativoDTO.toEntity(objDTO);
         administrativo.setPerfis(perfis);
         administrativo = administrativoRepository.save(administrativo);
@@ -70,14 +72,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private void validateByEmailAndCpf(AdministrativoDTO objDTO) {
-        Optional<Pessoa> obj = pessoaRepository.findByCpf(objDTO.getCpf());
-        if (obj.isPresent() && obj.get().getCpf().equals(objDTO.getCpf())) {
-            throw new DataIntegrityViolationException("CPF já cadastrado no sistema!");
-        }
-
-        obj = pessoaRepository.findByEmail(objDTO.getEmail());
-        if (obj.isPresent() && obj.get().getEmail().equals(objDTO.getEmail())) {
-            throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
+        Optional<Pessoa> obj = pessoaRepository.findByCpfOrEmail(objDTO.getCpf(), objDTO.getEmail());
+        if (obj.isPresent()) {
+            throw new DataIntegrityViolationException("CPF ou E-mail já cadastrado no sistema!");
         }
     }
 

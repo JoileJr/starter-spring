@@ -2,7 +2,7 @@ package com.starter.spring.service.admin;
 
 import java.util.List;
 
-import com.starter.spring.dto.AdministrativoDTO;
+import com.starter.spring.dto.models.AdministrativoDTO;
 
 public interface AdminService {
     

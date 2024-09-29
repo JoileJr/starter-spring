@@ -1,4 +1,4 @@
-package com.starter.spring.dto;
+package com.starter.spring.dto.models;
 
 import com.starter.spring.model.Endereco;
 

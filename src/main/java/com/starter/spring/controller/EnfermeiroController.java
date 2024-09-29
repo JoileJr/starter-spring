@@ -1,6 +1,6 @@
 package com.starter.spring.controller;
 
-import com.starter.spring.dto.EnfermeiroDTO;
+import com.starter.spring.dto.models.EnfermeiroDTO;
 import com.starter.spring.service.enfermeiro.EnfermeiroService;
 
 import jakarta.validation.Valid;

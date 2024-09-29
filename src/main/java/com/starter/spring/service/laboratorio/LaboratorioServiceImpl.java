@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.starter.spring.dto.EnderecoDTO;
-import com.starter.spring.dto.LaboratorioDTO;
+import com.starter.spring.dto.models.EnderecoDTO;
+import com.starter.spring.dto.models.LaboratorioDTO;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
 import com.starter.spring.exceptions.ObjectnotFoundException;
 import com.starter.spring.model.Endereco;

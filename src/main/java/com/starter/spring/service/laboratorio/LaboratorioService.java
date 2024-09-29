@@ -2,7 +2,7 @@ package com.starter.spring.service.laboratorio;
 
 import java.util.List;
 
-import com.starter.spring.dto.LaboratorioDTO;
+import com.starter.spring.dto.models.LaboratorioDTO;
 
 public interface LaboratorioService {
     

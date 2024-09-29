@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.starter.spring.dto.PacienteDTO;
+import com.starter.spring.dto.models.PacienteDTO;
 import com.starter.spring.service.paciente.PacienteService;
 
 import jakarta.validation.Valid;

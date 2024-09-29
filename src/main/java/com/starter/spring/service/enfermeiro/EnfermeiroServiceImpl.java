@@ -1,6 +1,6 @@
 package com.starter.spring.service.enfermeiro;
 
-import com.starter.spring.dto.EnfermeiroDTO;
+import com.starter.spring.dto.models.EnfermeiroDTO;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
 import com.starter.spring.exceptions.ObjectnotFoundException;
 import com.starter.spring.model.Enfermeiro;
@@ -11,6 +11,7 @@ import com.starter.spring.repository.PerfilRepository;
 import com.starter.spring.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -45,6 +46,7 @@ public class EnfermeiroServiceImpl implements EnfermeiroService {
     public EnfermeiroDTO create(EnfermeiroDTO objDTO) {
         validateByEmailAndCpf(objDTO);
         Set<Perfil> perfis = getDefaultProfiles();
+        objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
         Enfermeiro enfermeiro = EnfermeiroDTO.toEntity(objDTO);
         enfermeiro.setPerfis(perfis);
         enfermeiro = enfermeiroRepository.save(enfermeiro);
@@ -63,14 +65,9 @@ public class EnfermeiroServiceImpl implements EnfermeiroService {
     }
 
     private void validateByEmailAndCpf(EnfermeiroDTO objDTO) {
-        Optional<Pessoa> obj = pessoaRepository.findByCpf(objDTO.getCpf());
-        if (obj.isPresent() && obj.get().getCpf().equals(objDTO.getCpf())) {
-            throw new DataIntegrityViolationException("CPF já cadastrado no sistema!");
-        }
-
-        obj = pessoaRepository.findByEmail(objDTO.getEmail());
-        if (obj.isPresent() && obj.get().getEmail().equals(objDTO.getEmail())) {
-            throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
+        Optional<Pessoa> obj = pessoaRepository.findByCpfOrEmail(objDTO.getCpf(), objDTO.getEmail());
+        if (obj.isPresent()) {
+            throw new DataIntegrityViolationException("CPF ou E-mail já cadastrado no sistema!");
         }
     }
 

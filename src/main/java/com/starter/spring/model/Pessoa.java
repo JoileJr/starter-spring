@@ -1,14 +1,16 @@
 package com.starter.spring.model;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Builder
 @Data
@@ -19,7 +21,7 @@ import lombok.*;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo")
-public class Pessoa {
+public class Pessoa implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,8 +51,44 @@ public class Pessoa {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "pessoa_perfil",
-               joinColumns = @JoinColumn(name = "pessoa_id"),
-               inverseJoinColumns = @JoinColumn(name = "perfil_id"))
+            joinColumns = @JoinColumn(name = "pessoa_id"),
+            inverseJoinColumns = @JoinColumn(name = "perfil_id"))
     private Set<Perfil> perfis = new HashSet<>();
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return perfis.stream()
+                .map(perfil -> new SimpleGrantedAuthority(perfil.getNome()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return cpf;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

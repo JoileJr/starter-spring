@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.starter.spring.dto.LaboratorioDTO;
+import com.starter.spring.dto.models.LaboratorioDTO;
 import com.starter.spring.service.laboratorio.LaboratorioService;
 
 import jakarta.validation.Valid;

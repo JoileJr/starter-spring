@@ -1,6 +1,6 @@
 package com.starter.spring.service.enfermeiro;
 
-import com.starter.spring.dto.EnfermeiroDTO;
+import com.starter.spring.dto.models.EnfermeiroDTO;
 
 import java.util.List;
 

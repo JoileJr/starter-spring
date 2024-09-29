@@ -2,7 +2,7 @@ package com.starter.spring.service.paciente;
 
 import java.util.List;
 
-import com.starter.spring.dto.PacienteDTO;
+import com.starter.spring.dto.models.PacienteDTO;
 
 public interface PacienteService {
     

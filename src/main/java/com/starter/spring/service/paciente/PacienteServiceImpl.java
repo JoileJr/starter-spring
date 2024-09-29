@@ -3,9 +3,10 @@ package com.starter.spring.service.paciente;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.starter.spring.dto.PacienteDTO;
+import com.starter.spring.dto.models.PacienteDTO;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
 import com.starter.spring.exceptions.ObjectnotFoundException;
 import com.starter.spring.model.Paciente;
@@ -47,6 +48,7 @@ public class PacienteServiceImpl implements PacienteService {
     public PacienteDTO create(PacienteDTO objDTO) {
         validateByEmailAndCpf(objDTO);
         Set<Perfil> perfis = getDefaultProfiles();
+        objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
         Paciente paciente = PacienteDTO.toEntity(objDTO);
         paciente.setPerfis(perfis);
         paciente = pacienteRepository.save(paciente);
@@ -66,14 +68,9 @@ public class PacienteServiceImpl implements PacienteService {
 	}
 
     private void validateByEmailAndCpf(PacienteDTO objDTO) {
-        Optional<Pessoa> obj = pessoaRepository.findByCpf(objDTO.getCpf());
-        if (obj.isPresent() && obj.get().getCpf().equals(objDTO.getCpf())) {
-            throw new DataIntegrityViolationException("CPF já cadastrado no sistema!");
-        }
-
-        obj = pessoaRepository.findByEmail(objDTO.getEmail());
-        if (obj.isPresent() && obj.get().getEmail().equals(objDTO.getEmail())) {
-            throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
+        Optional<Pessoa> obj = pessoaRepository.findByCpfOrEmail(objDTO.getCpf(), objDTO.getEmail());
+        if (obj.isPresent()) {
+            throw new DataIntegrityViolationException("CPF ou E-mail já cadastrado no sistema!");
         }
     }
 
