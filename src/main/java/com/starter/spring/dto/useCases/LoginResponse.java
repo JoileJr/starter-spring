@@ -1,4 +1,7 @@
 package com.starter.spring.dto.useCases;
 
-public record LoginResponse(String token) {
+
+import java.util.Collection;
+
+public record LoginResponse(String token, Collection<?> authorities) {
 }

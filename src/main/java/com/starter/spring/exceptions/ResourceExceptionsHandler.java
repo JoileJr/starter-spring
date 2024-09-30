@@ -60,14 +60,4 @@ public class ResourceExceptionsHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
-    @ExceptionHandler(ServletException.class)
-    public ResponseEntity<StandardError> authenticationException(ServletException ex,
-                                                                          HttpServletRequest request) {
-
-        StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(),
-                "Invalid Credentials", ex.getMessage(), request.getRequestURI());
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
-    }
-
 }
