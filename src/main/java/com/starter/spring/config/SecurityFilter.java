@@ -1,6 +1,7 @@
 package com.starter.spring.config;
 
 import com.starter.spring.repository.PessoaRepository;
+import com.starter.spring.service.config.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

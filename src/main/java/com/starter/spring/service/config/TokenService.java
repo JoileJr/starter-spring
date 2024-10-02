@@ -1,4 +1,4 @@
-package com.starter.spring.config;
+package com.starter.spring.service.config;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

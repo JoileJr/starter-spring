@@ -3,7 +3,7 @@ package com.starter.spring.service.authentication;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.starter.spring.config.TokenService;
+import com.starter.spring.service.config.TokenService;
 import com.starter.spring.dto.useCases.LoginRequest;
 import com.starter.spring.dto.useCases.LoginResponse;
 import com.starter.spring.model.Pessoa;
