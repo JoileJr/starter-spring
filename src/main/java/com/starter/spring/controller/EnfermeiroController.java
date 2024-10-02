@@ -27,10 +27,10 @@ public class EnfermeiroController {
     }
 
     @GetMapping(value = "/{id}")
-	public ResponseEntity<EnfermeiroDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<EnfermeiroDTO> findById(@PathVariable Long id) {
         EnfermeiroDTO obj = enfermeiroService.findById(id);
-		return ResponseEntity.ok().body(obj);
-	}
+        return ResponseEntity.ok().body(obj);
+    }
 
     @PostMapping("/")
     public ResponseEntity<EnfermeiroDTO> create(@Valid @RequestBody EnfermeiroDTO obj) {
@@ -39,10 +39,10 @@ public class EnfermeiroController {
         return ResponseEntity.created(uri).build();
     }
 
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<EnfermeiroDTO> update(@PathVariable Long id, @Valid @RequestBody EnfermeiroDTO objDTO) {
-		EnfermeiroDTO obj = enfermeiroService.update(id, objDTO);
-		return ResponseEntity.ok().body(obj);
-	}
-    
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<EnfermeiroDTO> update(@PathVariable Long id, @Valid @RequestBody EnfermeiroDTO objDTO) {
+        EnfermeiroDTO obj = enfermeiroService.update(id, objDTO);
+        return ResponseEntity.ok().body(obj);
+    }
+
 }

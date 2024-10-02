@@ -35,10 +35,10 @@ public class PacienteController {
     }
 
     @GetMapping(value = "/{id}")
-	public ResponseEntity<PacienteDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<PacienteDTO> findById(@PathVariable Long id) {
         PacienteDTO obj = pacienteService.findById(id);
-		return ResponseEntity.ok().body(obj);
-	}
+        return ResponseEntity.ok().body(obj);
+    }
 
     @PostMapping("/")
     public ResponseEntity<PacienteDTO> create(@Valid @RequestBody PacienteDTO obj) {
@@ -47,10 +47,10 @@ public class PacienteController {
         return ResponseEntity.created(uri).build();
     }
 
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<PacienteDTO> update(@PathVariable Long id, @Valid @RequestBody PacienteDTO objDTO) {
-		PacienteDTO obj = pacienteService.update(id, objDTO);
-		return ResponseEntity.ok().body(obj);
-	}
-    
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<PacienteDTO> update(@PathVariable Long id, @Valid @RequestBody PacienteDTO objDTO) {
+        PacienteDTO obj = pacienteService.update(id, objDTO);
+        return ResponseEntity.ok().body(obj);
+    }
+
 }

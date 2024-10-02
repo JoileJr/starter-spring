@@ -53,5 +53,5 @@ public class AdminstrativoController {
         AdministrativoDTO obj = adminService.update(id, objDTO);
         return ResponseEntity.ok().body(obj);
     }
-    
+
 }

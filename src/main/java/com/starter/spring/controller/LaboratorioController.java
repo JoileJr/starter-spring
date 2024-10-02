@@ -50,9 +50,9 @@ public class LaboratorioController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<LaboratorioDTO> update(@PathVariable Long id,
-            @Valid @RequestBody LaboratorioDTO objDTO) {
+                                                 @Valid @RequestBody LaboratorioDTO objDTO) {
         LaboratorioDTO obj = laboratorioService.update(id, objDTO);
         return ResponseEntity.ok().body(obj);
     }
-    
+
 }
