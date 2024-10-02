@@ -33,17 +33,17 @@ public class PacienteDTO extends PessoaDTO {
         dto.setSenha(paciente.getSenha());
         dto.setDataNascimento(paciente.getDataNascimento());
         dto.setPerfis(paciente.getPerfis().stream()
-                        .map(PerfilDTO::toDTO)
-                        .collect(Collectors.toSet()));
+                .map(PerfilDTO::toDTO)
+                .collect(Collectors.toSet()));
         dto.setConvenios(paciente.getConvenios().stream()
-                        .map(ConvenioDTO::toDTO)
-                        .collect(Collectors.toList()));
+                .map(ConvenioDTO::toDTO)
+                .collect(Collectors.toList()));
         dto.setProntuarios(paciente.getProntuarios().stream()
-                        .map(ProntuarioDTO::toDTO)
-                        .collect(Collectors.toList()));
+                .map(ProntuarioDTO::toDTO)
+                .collect(Collectors.toList()));
         dto.setExames(paciente.getExames().stream()
-                        .map(ExameDTO::toDTO)
-                        .collect(Collectors.toList()));
+                .map(ExameDTO::toDTO)
+                .collect(Collectors.toList()));
 
         return dto;
     }
@@ -63,17 +63,17 @@ public class PacienteDTO extends PessoaDTO {
         paciente.setSenha(dto.getSenha());
         paciente.setDataNascimento(dto.getDataNascimento());
         paciente.setPerfis(dto.getPerfis().stream()
-                        .map(PerfilDTO::toEntity)
-                        .collect(Collectors.toSet()));
+                .map(PerfilDTO::toEntity)
+                .collect(Collectors.toSet()));
         paciente.setConvenios(dto.getConvenios().stream()
-                        .map(ConvenioDTO::toEntity)
-                        .collect(Collectors.toList()));
+                .map(ConvenioDTO::toEntity)
+                .collect(Collectors.toList()));
         paciente.setProntuarios(dto.getProntuarios().stream()
-                        .map(ProntuarioDTO::toEntity)
-                        .collect(Collectors.toList()));
+                .map(ProntuarioDTO::toEntity)
+                .collect(Collectors.toList()));
         paciente.setExames(dto.getExames().stream()
-                        .map(ExameDTO::toEntity)
-                        .collect(Collectors.toList()));
+                .map(ExameDTO::toEntity)
+                .collect(Collectors.toList()));
 
         return paciente;
     }
