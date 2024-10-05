@@ -1,4 +1,4 @@
-package com.starter.spring.service.enfermeiro;
+package com.starter.spring.service.funcionarios;
 
 import com.starter.spring.dto.models.EnfermeiroDTO;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class EnfermeiroServiceImpl implements EnfermeiroService {
+public class FuncionarioServiceImpl implements FuncionarioService {
 
     private final EnfermeiroRepository enfermeiroRepository;
 

@@ -1,4 +1,4 @@
-package com.starter.spring.service.authentication;
+package com.starter.spring.service.autenticacao;
 
 import com.starter.spring.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthorizationService implements UserDetailsService {
+public class AutorizacaoService implements UserDetailsService {
 
     private final PessoaRepository pessoaRepository;
 

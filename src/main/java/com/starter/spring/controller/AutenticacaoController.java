@@ -2,7 +2,7 @@ package com.starter.spring.controller;
 
 import com.starter.spring.dto.useCases.LoginRequest;
 import com.starter.spring.dto.useCases.LoginResponse;
-import com.starter.spring.service.authentication.AuthenticationService;
+import com.starter.spring.service.autenticacao.AutenticacaoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AutenticacaoController {
 
-    private final AuthenticationService authenticationService;
+    private final AutenticacaoService authenticationService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {

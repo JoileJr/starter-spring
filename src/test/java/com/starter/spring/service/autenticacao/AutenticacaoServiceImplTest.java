@@ -1,4 +1,4 @@
-package com.starter.spring.service.authentication;
+package com.starter.spring.service.autenticacao;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -18,10 +18,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-public class AuthenticationServiceImplTest {
+public class AutenticacaoServiceImplTest {
 
     @InjectMocks
-    private AuthenticationServiceImpl authenticationService;
+    private AutenticacaoServiceImpl authenticationService;
 
     @Mock
     private AuthenticationManager authenticationManager;

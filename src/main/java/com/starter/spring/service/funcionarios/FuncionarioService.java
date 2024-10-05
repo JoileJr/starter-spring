@@ -1,10 +1,10 @@
-package com.starter.spring.service.enfermeiro;
+package com.starter.spring.service.funcionarios;
 
 import com.starter.spring.dto.models.EnfermeiroDTO;
 
 import java.util.List;
 
-public interface EnfermeiroService {
+public interface FuncionarioService {
 
     EnfermeiroDTO findById(Long id);
 

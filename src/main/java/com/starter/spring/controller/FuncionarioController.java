@@ -1,7 +1,7 @@
 package com.starter.spring.controller;
 
 import com.starter.spring.dto.models.EnfermeiroDTO;
-import com.starter.spring.service.enfermeiro.EnfermeiroService;
+import com.starter.spring.service.funcionarios.FuncionarioService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +16,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/enf")
 @RequiredArgsConstructor
-public class EnfermeiroController {
+public class FuncionarioController {
 
-    private final EnfermeiroService enfermeiroService;
+    private final FuncionarioService enfermeiroService;
 
     @GetMapping("/")
     public ResponseEntity<List<EnfermeiroDTO>> listAll() {

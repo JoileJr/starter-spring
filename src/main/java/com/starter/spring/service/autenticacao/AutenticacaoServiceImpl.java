@@ -1,4 +1,4 @@
-package com.starter.spring.service.authentication;
+package com.starter.spring.service.autenticacao;
 
 import com.starter.spring.service.config.TokenService;
 import com.starter.spring.dto.useCases.LoginRequest;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class AutenticacaoServiceImpl implements AutenticacaoService {
 
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;

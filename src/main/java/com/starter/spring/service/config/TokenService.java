@@ -18,34 +18,33 @@ public class TokenService {
     @Value("${spring.security.token-secret}")
     private String secret;
 
-    public String generateToken(Pessoa user){
-        try{
+    public String generateToken(Pessoa user) {
+        try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            String token = JWT.create()
-                    .withIssuer("auth-api")
+            return JWT.create()
+                    .withIssuer("siac-api")
                     .withSubject(user.getCpf())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
-            return token;
         } catch (JWTCreationException exception) {
             throw new BadCredentialsException("Cpf ou Senha estão incorretos!");
         }
     }
 
-    public String validateToken(String token){
+    public String validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-                    .withIssuer("auth-api")
+                    .withIssuer("siac-api")
                     .build()
                     .verify(token)
                     .getSubject();
-        } catch (Exception exception){
+        } catch (Exception exception) {
             return "";
         }
     }
 
-    private Instant genExpirationDate(){
+    private Instant genExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 
