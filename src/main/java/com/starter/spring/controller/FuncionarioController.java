@@ -1,6 +1,6 @@
 package com.starter.spring.controller;
 
-import com.starter.spring.dto.models.EnfermeiroDTO;
+import com.starter.spring.dto.models.ProfissionalSaudeDTO;
 import com.starter.spring.service.funcionarios.FuncionarioService;
 
 import jakarta.validation.Valid;
@@ -21,27 +21,27 @@ public class FuncionarioController {
     private final FuncionarioService enfermeiroService;
 
     @GetMapping("/")
-    public ResponseEntity<List<EnfermeiroDTO>> listAll() {
-        List<EnfermeiroDTO> list = enfermeiroService.findAll();
+    public ResponseEntity<List<ProfissionalSaudeDTO>> listAll() {
+        List<ProfissionalSaudeDTO> list = enfermeiroService.findAll();
         return ResponseEntity.ok(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<EnfermeiroDTO> findById(@PathVariable Long id) {
-        EnfermeiroDTO obj = enfermeiroService.findById(id);
+    public ResponseEntity<ProfissionalSaudeDTO> findById(@PathVariable Long id) {
+        ProfissionalSaudeDTO obj = enfermeiroService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 
     @PostMapping("/")
-    public ResponseEntity<EnfermeiroDTO> create(@Valid @RequestBody EnfermeiroDTO obj) {
-        EnfermeiroDTO firstEntityDTO = enfermeiroService.create(obj);
+    public ResponseEntity<ProfissionalSaudeDTO> create(@Valid @RequestBody ProfissionalSaudeDTO obj) {
+        ProfissionalSaudeDTO firstEntityDTO = enfermeiroService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(firstEntityDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<EnfermeiroDTO> update(@PathVariable Long id, @Valid @RequestBody EnfermeiroDTO objDTO) {
-        EnfermeiroDTO obj = enfermeiroService.update(id, objDTO);
+    public ResponseEntity<ProfissionalSaudeDTO> update(@PathVariable Long id, @Valid @RequestBody ProfissionalSaudeDTO objDTO) {
+        ProfissionalSaudeDTO obj = enfermeiroService.update(id, objDTO);
         return ResponseEntity.ok().body(obj);
     }
 

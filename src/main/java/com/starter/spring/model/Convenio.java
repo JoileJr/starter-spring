@@ -42,6 +42,6 @@ public class Convenio {
 
     @ManyToOne
     @JoinColumn(name = "paciente_id")
-    private Paciente paciente;
+    private Pessoa paciente;
     
 }

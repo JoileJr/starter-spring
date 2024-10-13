@@ -31,7 +31,7 @@ public class LaboratorioDTO {
 
     private EnderecoDTO endereco;
 
-    private List<EnfermeiroDTO> enfermeiros;
+    private List<ProfissionalSaudeDTO> enfermeiros;
 
     private List<AdministrativoDTO> administrativos;
 

@@ -2,6 +2,7 @@ package com.starter.spring.dto.models;
 
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,12 +30,19 @@ public class PessoaDTO {
     @NotNull(message = "O campo email é requerido")
     private String email;
 
+//    @NotNull(message = "O campo senha é requerido")
     private String senha;
 
     @NotNull(message = "O campo dataNascimento é requerido")
     private Date dataNascimento;
 
     private Set<PerfilDTO> perfis;
+
+    private List<ConvenioDTO> convenios;
+
+    private List<ProntuarioDTO> prontuarios;
+
+    private List<ExameDTO> examesRealizados;
 
     public static PessoaDTO toDTO(Pessoa pessoa) {
         if (pessoa == null) {
@@ -53,6 +61,15 @@ public class PessoaDTO {
         dto.setPerfis(pessoa.getPerfis().stream()
                         .map(PerfilDTO::toDTO)
                         .collect(Collectors.toSet()));
+        dto.setConvenios(pessoa.getConvenios().stream()
+                .map(ConvenioDTO::toDTO)
+                .collect(Collectors.toList()));
+        dto.setProntuarios(pessoa.getProntuarios().stream()
+                .map(ProntuarioDTO::toDTO)
+                .collect(Collectors.toList()));
+        dto.setExamesRealizados(pessoa.getExamesRealizados().stream()
+                .map(ExameDTO::toDTO)
+                .collect(Collectors.toList()));
 
 
         return dto;
@@ -75,6 +92,15 @@ public class PessoaDTO {
         pessoa.setPerfis(dto.getPerfis().stream()
                         .map(PerfilDTO::toEntity)
                         .collect(Collectors.toSet()));
+        pessoa.setConvenios(dto.getConvenios().stream()
+                .map(ConvenioDTO::toEntity)
+                .collect(Collectors.toList()));
+        pessoa.setProntuarios(dto.getProntuarios().stream()
+                .map(ProntuarioDTO::toEntity)
+                .collect(Collectors.toList()));
+        pessoa.setExamesRealizados(dto.getExamesRealizados().stream()
+                .map(ExameDTO::toEntity)
+                .collect(Collectors.toList()));
 
         return pessoa;
     }

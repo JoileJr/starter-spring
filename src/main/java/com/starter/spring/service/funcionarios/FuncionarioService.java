@@ -1,17 +1,17 @@
 package com.starter.spring.service.funcionarios;
 
-import com.starter.spring.dto.models.EnfermeiroDTO;
+import com.starter.spring.dto.models.ProfissionalSaudeDTO;
 
 import java.util.List;
 
 public interface FuncionarioService {
 
-    EnfermeiroDTO findById(Long id);
+    ProfissionalSaudeDTO findById(Long id);
 
-    List<EnfermeiroDTO> findAll();
+    List<ProfissionalSaudeDTO> findAll();
 
-    EnfermeiroDTO create(EnfermeiroDTO objDTO);
+    ProfissionalSaudeDTO create(ProfissionalSaudeDTO objDTO);
 
-    EnfermeiroDTO update(Long Id ,EnfermeiroDTO objDTO);
+    ProfissionalSaudeDTO update(Long Id , ProfissionalSaudeDTO objDTO);
 
 }

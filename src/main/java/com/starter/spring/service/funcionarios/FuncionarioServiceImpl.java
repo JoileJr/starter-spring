@@ -1,9 +1,10 @@
 package com.starter.spring.service.funcionarios;
 
-import com.starter.spring.dto.models.EnfermeiroDTO;
+import com.starter.spring.dto.models.ProfissionalSaudeDTO;
+import com.starter.spring.enums.TipoUsuario;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
 import com.starter.spring.exceptions.ObjectnotFoundException;
-import com.starter.spring.model.Enfermeiro;
+import com.starter.spring.model.ProfissionalSaude;
 import com.starter.spring.model.Perfil;
 import com.starter.spring.model.Pessoa;
 import com.starter.spring.repository.EnfermeiroRepository;
@@ -28,52 +29,54 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     private final PerfilRepository perfilRepository;
 
     @Override
-    public EnfermeiroDTO findById(Long id) {
-        Optional<Enfermeiro> obj = enfermeiroRepository.findById(id);
-        return EnfermeiroDTO.toDTO(obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id)));
+    public ProfissionalSaudeDTO findById(Long id) {
+        Optional<ProfissionalSaude> obj = enfermeiroRepository.findById(id);
+        return ProfissionalSaudeDTO.toDTO(obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id)));
     }
 
     @Override
-    public List<EnfermeiroDTO> findAll() {
-        List<Enfermeiro> enfermeiros = enfermeiroRepository.findAll();
+    public List<ProfissionalSaudeDTO> findAll() {
+        List<ProfissionalSaude> enfermeiros = enfermeiroRepository.findAll();
         return enfermeiros.stream()
-                .map(EnfermeiroDTO::toDTO)
+                .map(ProfissionalSaudeDTO::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     @Override
-    public EnfermeiroDTO create(EnfermeiroDTO objDTO) {
+    public ProfissionalSaudeDTO create(ProfissionalSaudeDTO objDTO) {
         validateByEmailAndCpf(objDTO);
-        Set<Perfil> perfis = getDefaultProfiles();
+        // alterar forma de receber roles
+        Set<Perfil> perfis = getDefaultProfiles(Arrays.asList(TipoUsuario.PACIENTE.getDescricao()));
         objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
-        Enfermeiro enfermeiro = EnfermeiroDTO.toEntity(objDTO);
+        ProfissionalSaude enfermeiro = ProfissionalSaudeDTO.toEntity(objDTO);
         enfermeiro.setPerfis(perfis);
         enfermeiro = enfermeiroRepository.save(enfermeiro);
-        return EnfermeiroDTO.toDTO(enfermeiro);
+        return ProfissionalSaudeDTO.toDTO(enfermeiro);
     }
 
     @Transactional
     @Override
-    public EnfermeiroDTO update(Long Id, EnfermeiroDTO objDTO) {
+    public ProfissionalSaudeDTO update(Long Id, ProfissionalSaudeDTO objDTO) {
         objDTO.setId(Id);
-        Set<Perfil> perfis = getDefaultProfiles();
-        Enfermeiro enfermeiro = EnfermeiroDTO.toEntity(objDTO);
+        // alterar forma de receber roles
+        Set<Perfil> perfis = getDefaultProfiles(Arrays.asList(TipoUsuario.PACIENTE.getDescricao()));
+        ProfissionalSaude enfermeiro = ProfissionalSaudeDTO.toEntity(objDTO);
         enfermeiro.setPerfis(perfis);
         enfermeiro = enfermeiroRepository.save(enfermeiro);
-        return EnfermeiroDTO.toDTO(enfermeiro);
+        return ProfissionalSaudeDTO.toDTO(enfermeiro);
     }
 
-    private void validateByEmailAndCpf(EnfermeiroDTO objDTO) {
+    private void validateByEmailAndCpf(ProfissionalSaudeDTO objDTO) {
         Optional<Pessoa> obj = pessoaRepository.findByCpfOrEmail(objDTO.getCpf(), objDTO.getEmail());
         if (obj.isPresent()) {
             throw new DataIntegrityViolationException("CPF ou E-mail já cadastrado no sistema!");
         }
     }
 
-    private Set<Perfil> getDefaultProfiles() {
+    private Set<Perfil> getDefaultProfiles(List<String> perfisBuscar) {
         Set<Perfil> perfis = new HashSet<>();
-        List<Perfil> perfisList = perfilRepository.findByNomeIn(Arrays.asList("paciente", "enfermeiro"));
+        List<Perfil> perfisList = perfilRepository.findByNomeIn(perfisBuscar);
 
         if (!perfisList.isEmpty()) {
             perfis.addAll(perfisList);

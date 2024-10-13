@@ -23,7 +23,7 @@ public class ConvenioDTO {
     private String email;
 
     @NotNull(message = "O campo paciente é requerido")
-    private PacienteDTO paciente;
+    private PessoaDTO paciente;
 
     public static ConvenioDTO toDTO(Convenio convenio) {
         if (convenio == null) {
@@ -36,7 +36,7 @@ public class ConvenioDTO {
         dto.setTipo(convenio.getTipo());
         dto.setTelefone(convenio.getTelefone());
         dto.setEmail(convenio.getEmail());
-        dto.setPaciente(PacienteDTO.toDTO(convenio.getPaciente()));
+        dto.setPaciente(PessoaDTO.toDTO(convenio.getPaciente()));
 
         return dto;
     }
@@ -52,7 +52,7 @@ public class ConvenioDTO {
         convenio.setTipo(convenio.getTipo());
         convenio.setTelefone(convenio.getTelefone());
         convenio.setEmail(convenio.getEmail());
-        convenio.setPaciente(PacienteDTO.toEntity(dto.getPaciente()));
+        convenio.setPaciente(PessoaDTO.toEntity(dto.getPaciente()));
 
         return convenio;
     }

@@ -3,6 +3,7 @@ package com.starter.spring.controller;
 import java.net.URI;
 import java.util.List;
 
+import com.starter.spring.dto.models.PessoaDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.starter.spring.dto.models.PacienteDTO;
 import com.starter.spring.service.paciente.PacienteService;
 
 import jakarta.validation.Valid;
@@ -29,27 +29,27 @@ public class PacienteController {
     private final PacienteService pacienteService;
 
     @GetMapping("/")
-    public ResponseEntity<List<PacienteDTO>> listAll() {
-        List<PacienteDTO> list = pacienteService.findAll();
+    public ResponseEntity<List<PessoaDTO>> listAll() {
+        List<PessoaDTO> list = pacienteService.findAll();
         return ResponseEntity.ok(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<PacienteDTO> findById(@PathVariable Long id) {
-        PacienteDTO obj = pacienteService.findById(id);
+    public ResponseEntity<PessoaDTO> findById(@PathVariable Long id) {
+        PessoaDTO obj = pacienteService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 
     @PostMapping("/")
-    public ResponseEntity<PacienteDTO> create(@Valid @RequestBody PacienteDTO obj) {
-        PacienteDTO firstEntityDTO = pacienteService.create(obj);
+    public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PessoaDTO obj) {
+        PessoaDTO firstEntityDTO = pacienteService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(firstEntityDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<PacienteDTO> update(@PathVariable Long id, @Valid @RequestBody PacienteDTO objDTO) {
-        PacienteDTO obj = pacienteService.update(id, objDTO);
+    public ResponseEntity<PessoaDTO> update(@PathVariable Long id, @Valid @RequestBody PessoaDTO objDTO) {
+        PessoaDTO obj = pacienteService.update(id, objDTO);
         return ResponseEntity.ok().body(obj);
     }
 

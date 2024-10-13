@@ -3,18 +3,22 @@ package com.starter.spring.dto.models;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.starter.spring.model.Enfermeiro;
+import com.starter.spring.enums.TipoUsuario;
+import com.starter.spring.model.ProfissionalSaude;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class EnfermeiroDTO extends PessoaDTO {
-    
-    @NotNull(message = "O campo coren é requerido")
-    private String coren;
+public class ProfissionalSaudeDTO extends PessoaDTO {
+
+    @NotNull(message = "O registro profissional é requerido")
+    private String registroProfissional;
+
+    private TipoUsuario tipoProfissional;
 
     @NotNull(message = "A região é requerida")
     private String regiao;
@@ -23,12 +27,12 @@ public class EnfermeiroDTO extends PessoaDTO {
 
     private List<ExameDTO> exames;
 
-    public static EnfermeiroDTO toDTO(Enfermeiro enfermeiro) {
+    public static ProfissionalSaudeDTO toDTO(ProfissionalSaude enfermeiro) {
         if (enfermeiro == null) {
             return null;
         }
 
-        EnfermeiroDTO dto = new EnfermeiroDTO();
+        ProfissionalSaudeDTO dto = new ProfissionalSaudeDTO();
         dto.setId(enfermeiro.getId());
         dto.setNome(enfermeiro.getNome());
         dto.setCpf(enfermeiro.getCpf());
@@ -40,7 +44,8 @@ public class EnfermeiroDTO extends PessoaDTO {
         dto.setPerfis(enfermeiro.getPerfis().stream()
                         .map(PerfilDTO::toDTO)
                         .collect(Collectors.toSet()));
-        dto.setCoren(enfermeiro.getCoren());
+        dto.setRegistroProfissional(enfermeiro.getRegistroProfissional());
+        dto.setTipoProfissional(enfermeiro.getTipoProfissional());
         dto.setRegiao(enfermeiro.getRegiao());
         dto.setLaboratorio(LaboratorioDTO.toDTO(enfermeiro.getLaboratorio()));
         dto.setExames(enfermeiro.getExames().stream()
@@ -50,12 +55,12 @@ public class EnfermeiroDTO extends PessoaDTO {
         return dto;
     }
 
-    public static Enfermeiro toEntity(EnfermeiroDTO dto) {
+    public static ProfissionalSaude toEntity(ProfissionalSaudeDTO dto) {
         if (dto == null) {
             return null;
         }
 
-        Enfermeiro enfermeiro = new Enfermeiro();
+        ProfissionalSaude enfermeiro = new ProfissionalSaude();
         enfermeiro.setId(dto.getId());
         enfermeiro.setNome(dto.getNome());
         enfermeiro.setCpf(dto.getCpf());
@@ -67,7 +72,8 @@ public class EnfermeiroDTO extends PessoaDTO {
         enfermeiro.setPerfis(dto.getPerfis().stream()
                         .map(PerfilDTO::toEntity)
                         .collect(Collectors.toSet()));
-        enfermeiro.setCoren(dto.getCoren());
+        enfermeiro.setRegistroProfissional(dto.getRegistroProfissional());
+        enfermeiro.setTipoProfissional(dto.getTipoProfissional());
         enfermeiro.setRegiao(dto.getRegiao());
         enfermeiro.setLaboratorio(LaboratorioDTO.toEntity(dto.getLaboratorio()));
         enfermeiro.setExames(dto.getExames().stream()

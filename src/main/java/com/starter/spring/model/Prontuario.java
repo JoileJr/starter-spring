@@ -71,5 +71,5 @@ public class Prontuario {
 
     @ManyToOne
     @JoinColumn(name = "paciente_id")
-    private Paciente paciente;
+    private Pessoa paciente;
 }

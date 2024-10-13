@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.starter.spring.model.Exame;
 
+import com.starter.spring.model.Pessoa;
 import lombok.Data;
 
 @Data
@@ -15,9 +16,9 @@ public class ExameDTO {
 
     private Date dataExame;
 
-    private PacienteDTO paciente;
+    private PessoaDTO paciente;
 
-    private EnfermeiroDTO enfermeiro;
+    private ProfissionalSaudeDTO enfermeiro;
 
     private LaboratorioDTO laboratorio;
 
@@ -33,8 +34,8 @@ public class ExameDTO {
         ExameDTO dto = new ExameDTO();
         dto.setId(exame.getId());
         dto.setDataExame(exame.getDataExame());
-        dto.setPaciente(PacienteDTO.toDTO(exame.getPaciente()));
-        dto.setEnfermeiro(EnfermeiroDTO.toDTO(exame.getEnfermeiro()));
+        dto.setPaciente(PessoaDTO.toDTO(exame.getPaciente()));
+        dto.setEnfermeiro(ProfissionalSaudeDTO.toDTO(exame.getEnfermeiro()));
         dto.setLaboratorio(LaboratorioDTO.toDTO(exame.getLaboratorio()));
         dto.setTipoExame(TipoExameDTO.toDTO(exame.getTipoExame()));
         dto.setResultadoParametros(exame.getResultadoParametros().stream()
@@ -52,8 +53,8 @@ public class ExameDTO {
         Exame exame = new Exame();
         exame.setId(dto.getId());
         exame.setDataExame(dto.getDataExame());
-        exame.setPaciente(PacienteDTO.toEntity(dto.getPaciente()));
-        exame.setEnfermeiro(EnfermeiroDTO.toEntity(dto.getEnfermeiro()));
+        exame.setPaciente(PessoaDTO.toEntity(dto.getPaciente()));
+        exame.setEnfermeiro(ProfissionalSaudeDTO.toEntity(dto.getEnfermeiro()));
         exame.setLaboratorio(LaboratorioDTO.toEntity(dto.getLaboratorio()));
         exame.setTipoExame(TipoExameDTO.toEntity(dto.getTipoExame()));
         exame.setResultadoParametros(dto.getResultadoParametros().stream()

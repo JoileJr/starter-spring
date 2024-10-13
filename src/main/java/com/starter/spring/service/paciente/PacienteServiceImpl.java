@@ -3,16 +3,15 @@ package com.starter.spring.service.paciente;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.starter.spring.dto.models.PessoaDTO;
+import com.starter.spring.enums.TipoUsuario;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.starter.spring.dto.models.PacienteDTO;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
 import com.starter.spring.exceptions.ObjectnotFoundException;
-import com.starter.spring.model.Paciente;
 import com.starter.spring.model.Perfil;
 import com.starter.spring.model.Pessoa;
-import com.starter.spring.repository.PacienteRepository;
 import com.starter.spring.repository.PerfilRepository;
 import com.starter.spring.repository.PessoaRepository;
 
@@ -23,51 +22,49 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PacienteServiceImpl implements PacienteService {
 
-    private final PacienteRepository pacienteRepository;
-
 	private final PessoaRepository pessoaRepository;
 
     private final PerfilRepository perfilRepository;
 
     @Override
-    public PacienteDTO findById(Long id) {
-        Optional<Paciente> obj = pacienteRepository.findById(id);
-        return PacienteDTO.toDTO(obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id))); 
+    public PessoaDTO findById(Long id) {
+        Optional<Pessoa> obj = pessoaRepository.findById(id);
+        return PessoaDTO.toDTO(obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id)));
 	}
 
     @Override
-    public List<PacienteDTO> findAll(){
-        List<Paciente> pacientes = pacienteRepository.findAll();
+    public List<PessoaDTO> findAll(){
+        List<Pessoa> pacientes = pessoaRepository.findAll();
         return pacientes.stream()
-                        .map(PacienteDTO::toDTO)
+                        .map(PessoaDTO::toDTO)
                         .collect(Collectors.toList());
     }
 
     @Transactional
     @Override
-    public PacienteDTO create(PacienteDTO objDTO) {
+    public PessoaDTO create(PessoaDTO objDTO) {
         validateByEmailAndCpf(objDTO);
         Set<Perfil> perfis = getDefaultProfiles();
         objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
-        Paciente paciente = PacienteDTO.toEntity(objDTO);
+        Pessoa paciente = PessoaDTO.toEntity(objDTO);
         paciente.setPerfis(perfis);
-        paciente = pacienteRepository.save(paciente);
-        return PacienteDTO.toDTO(paciente);
+        paciente = pessoaRepository.save(paciente);
+        return PessoaDTO.toDTO(paciente);
     }
 
     @Transactional
     @Override
-    public PacienteDTO update(Long Id, PacienteDTO objDTO) {
+    public PessoaDTO update(Long Id, PessoaDTO objDTO) {
         objDTO.setId(Id);
 		validateByEmailAndCpf(objDTO);
         Set<Perfil> perfis = getDefaultProfiles();
-        Paciente paciente = PacienteDTO.toEntity(objDTO);
+        Pessoa paciente = PessoaDTO.toEntity(objDTO);
         paciente.setPerfis(perfis);
-        paciente = pacienteRepository.save(paciente);
-        return PacienteDTO.toDTO(paciente);
+        paciente = pessoaRepository.save(paciente);
+        return PessoaDTO.toDTO(paciente);
 	}
 
-    private void validateByEmailAndCpf(PacienteDTO objDTO) {
+    private void validateByEmailAndCpf(PessoaDTO objDTO) {
         Optional<Pessoa> obj = pessoaRepository.findByCpfOrEmail(objDTO.getCpf(), objDTO.getEmail());
         if (obj.isPresent()) {
             throw new DataIntegrityViolationException("CPF ou E-mail já cadastrado no sistema!");
@@ -76,7 +73,7 @@ public class PacienteServiceImpl implements PacienteService {
 
     private Set<Perfil> getDefaultProfiles() {
         Set<Perfil> perfis = new HashSet<>();
-        Perfil perfil = perfilRepository.findByNome("paciente");
+        Perfil perfil = perfilRepository.findByNome(TipoUsuario.PACIENTE.getDescricao());
         if (perfil != null) {
             perfis.add(perfil);
         }

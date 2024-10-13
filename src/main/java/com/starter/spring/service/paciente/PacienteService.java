@@ -1,16 +1,16 @@
 package com.starter.spring.service.paciente;
 
-import java.util.List;
+import com.starter.spring.dto.models.PessoaDTO;
 
-import com.starter.spring.dto.models.PacienteDTO;
+import java.util.List;
 
 public interface PacienteService {
     
-    PacienteDTO findById(Long id);
+    PessoaDTO findById(Long id);
 
-    List<PacienteDTO> findAll();
+    List<PessoaDTO> findAll();
 
-    PacienteDTO create(PacienteDTO objDTO);
+    PessoaDTO create(PessoaDTO objDTO);
 
-    PacienteDTO update(Long Id ,PacienteDTO objDTO);
+    PessoaDTO update(Long Id, PessoaDTO objDTO);
 }

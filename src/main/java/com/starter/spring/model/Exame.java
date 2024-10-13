@@ -42,11 +42,11 @@ public class Exame {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "paciente_id", nullable = false)
-    private Paciente paciente;
+    private Pessoa paciente;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "enfermeiro_id", nullable = false)
-    private Enfermeiro enfermeiro;
+    private ProfissionalSaude enfermeiro;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "laboratorio_id", nullable = false)
