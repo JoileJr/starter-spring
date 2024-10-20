@@ -1,5 +1,6 @@
 package com.starter.spring.service.funcionarios;
 
+import com.starter.spring.dto.models.PerfilDTO;
 import com.starter.spring.dto.models.ProfissionalSaudeDTO;
 import com.starter.spring.enums.TipoUsuario;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
@@ -46,8 +47,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Override
     public ProfissionalSaudeDTO create(ProfissionalSaudeDTO objDTO) {
         validateByEmailAndCpf(objDTO);
-        // alterar forma de receber roles
-        Set<Perfil> perfis = getDefaultProfiles(Arrays.asList(TipoUsuario.PACIENTE.getDescricao()));
+        List<String> descricoesPerfis = objDTO.getPerfis().stream()
+                .map(PerfilDTO::getNome)
+                .toList();
+        Set<Perfil> perfis = getDefaultProfiles(descricoesPerfis);
         objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
         ProfissionalSaude enfermeiro = ProfissionalSaudeDTO.toEntity(objDTO);
         enfermeiro.setPerfis(perfis);

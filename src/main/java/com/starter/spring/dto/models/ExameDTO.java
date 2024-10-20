@@ -18,7 +18,7 @@ public class ExameDTO {
 
     private PessoaDTO paciente;
 
-    private ProfissionalSaudeDTO enfermeiro;
+    private ProfissionalSaudeDTO profissionalSaude;
 
     private LaboratorioDTO laboratorio;
 
@@ -35,7 +35,7 @@ public class ExameDTO {
         dto.setId(exame.getId());
         dto.setDataExame(exame.getDataExame());
         dto.setPaciente(PessoaDTO.toDTO(exame.getPaciente()));
-        dto.setEnfermeiro(ProfissionalSaudeDTO.toDTO(exame.getEnfermeiro()));
+        dto.setProfissionalSaude(ProfissionalSaudeDTO.toDTO(exame.getProfissionalSaude()));
         dto.setLaboratorio(LaboratorioDTO.toDTO(exame.getLaboratorio()));
         dto.setTipoExame(TipoExameDTO.toDTO(exame.getTipoExame()));
         dto.setResultadoParametros(exame.getResultadoParametros().stream()
@@ -54,7 +54,7 @@ public class ExameDTO {
         exame.setId(dto.getId());
         exame.setDataExame(dto.getDataExame());
         exame.setPaciente(PessoaDTO.toEntity(dto.getPaciente()));
-        exame.setEnfermeiro(ProfissionalSaudeDTO.toEntity(dto.getEnfermeiro()));
+        exame.setProfissionalSaude(ProfissionalSaudeDTO.toEntity(dto.getProfissionalSaude()));
         exame.setLaboratorio(LaboratorioDTO.toEntity(dto.getLaboratorio()));
         exame.setTipoExame(TipoExameDTO.toEntity(dto.getTipoExame()));
         exame.setResultadoParametros(dto.getResultadoParametros().stream()

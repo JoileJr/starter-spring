@@ -11,5 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
     Optional<Pessoa> findByCpfOrEmail(String cpf, String email);
+
     UserDetails findByCpf(String cpf);
 }
