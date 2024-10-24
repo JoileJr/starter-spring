@@ -1,6 +1,7 @@
 package com.starter.spring.service.autenticacao;
 
 import com.starter.spring.service.config.TokenService;
+import com.starter.spring.dto.models.PessoaDTO;
 import com.starter.spring.dto.useCases.LoginRequest;
 import com.starter.spring.dto.useCases.LoginResponse;
 import com.starter.spring.model.Pessoa;
@@ -28,8 +29,9 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
         try {
             var usernamePassword = new UsernamePasswordAuthenticationToken(loginRequest.cpf(), loginRequest.senha());
             Authentication auth = this.authenticationManager.authenticate(usernamePassword);
-            var token = tokenService.generateToken((Pessoa) auth.getPrincipal());
-            return new LoginResponse(token, auth.getAuthorities());
+            Pessoa user = (Pessoa) auth.getPrincipal();
+            var token = tokenService.generateToken(user);
+            return new LoginResponse(token, auth.getAuthorities(), PessoaDTO.toDTO(user));
         } catch (Exception e) {
             throw new BadCredentialsException("Falha na autenticação: " + e.getMessage(), e);
         }
