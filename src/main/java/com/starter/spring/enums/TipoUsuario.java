@@ -1,8 +1,8 @@
 package com.starter.spring.enums;
 
 public enum TipoUsuario {
-    CEO(""),
-    PACIENTE(""),
+    CEO("Ceo"),
+    PACIENTE("Paciente"),
     ADMINSTRATIVO("Administrativo"),
     MEDICO("Médico"),
     ENFERMEIRO("Enfermeiro"),
