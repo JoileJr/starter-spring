@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import com.starter.spring.model.Exame;
 
-import com.starter.spring.model.Pessoa;
 import lombok.Data;
 
 @Data

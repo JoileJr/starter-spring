@@ -60,7 +60,7 @@ public class AutenticacaoServiceImplTest {
         LoginResponse response = authenticationService.login(loginRequest);
 
         assertNotNull(response);
-        assertEquals(token, response.token());
+        assertEquals(token, response.access_token());
         verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
     }
 

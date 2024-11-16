@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import com.starter.spring.enums.TipoUsuario;
 import com.starter.spring.model.ProfissionalSaude;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
