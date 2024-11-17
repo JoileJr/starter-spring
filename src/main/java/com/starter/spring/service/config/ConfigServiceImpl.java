@@ -20,7 +20,7 @@ public class ConfigServiceImpl implements ConfigService {
     public void instanciaPerfil() {
 
         Perfil p1 = Perfil.builder().nome(TipoUsuario.ADMINSTRATIVO.getDescricao()).build();
-        Perfil p2 = Perfil.builder().nome(TipoUsuario.CEO.getDescricao()).build();
+        Perfil p2 = Perfil.builder().nome(TipoUsuario.ADMINSTRADOR.getDescricao()).build();
         Perfil p3 = Perfil.builder().nome(TipoUsuario.MEDICO.getDescricao()).build();
         Perfil p4 = Perfil.builder().nome(TipoUsuario.BIOMEDICO.getDescricao()).build();
         Perfil p5 = Perfil.builder().nome(TipoUsuario.PACIENTE.getDescricao()).build();

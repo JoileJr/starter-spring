@@ -52,7 +52,7 @@ public class ResourceExceptionsHandler {
     public ResponseEntity<StandardError> userCredentialsNotFoundException(BadCredentialsException ex,
                                                                  HttpServletRequest request) {
 
-        StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(),
+        StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Invalid Credentials", ex.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);

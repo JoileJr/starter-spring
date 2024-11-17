@@ -1,7 +1,9 @@
 package com.starter.spring.controller;
 
+import com.starter.spring.dto.models.PessoaDTO;
 import com.starter.spring.dto.useCases.LoginRequest;
 import com.starter.spring.dto.useCases.LoginResponse;
+import com.starter.spring.dto.useCases.SingUpRequest;
 import com.starter.spring.service.autenticacao.AutenticacaoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +22,11 @@ public class AutenticacaoController {
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
         LoginResponse LoginResponse = authenticationService.login(loginRequest);
         return ResponseEntity.ok(LoginResponse);
+    }
+
+    @PostMapping("/sing-up")
+    public ResponseEntity<SingUpRequest> singUp(@RequestBody @Valid SingUpRequest request) {
+        SingUpRequest pessoaDTO = authenticationService.singUp(request);
+        return ResponseEntity.ok(pessoaDTO);
     }
 }
