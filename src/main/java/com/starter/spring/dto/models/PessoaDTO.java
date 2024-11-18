@@ -12,6 +12,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
+@Getter
+@Setter
 public class PessoaDTO {
     private Long id;
 
@@ -44,6 +46,8 @@ public class PessoaDTO {
 
     private List<ExameDTO> examesRealizados;
 
+    private LaboratorioDTO laboratorio;
+
     public static PessoaDTO toDTO(Pessoa pessoa) {
         if (pessoa == null) {
             return null;
@@ -70,6 +74,7 @@ public class PessoaDTO {
         dto.setExamesRealizados(pessoa.getExamesRealizados().stream()
                 .map(ExameDTO::toDTO)
                 .collect(Collectors.toList()));
+        dto.setLaboratorio(LaboratorioDTO.toDTO(pessoa.getLaboratorio()));
 
 
         return dto;
@@ -101,7 +106,7 @@ public class PessoaDTO {
         pessoa.setExamesRealizados(dto.getExamesRealizados().stream()
                 .map(ExameDTO::toEntity)
                 .collect(Collectors.toList()));
-
+        pessoa.setLaboratorio(LaboratorioDTO.toEntity(dto.getLaboratorio()));
         return pessoa;
     }
 

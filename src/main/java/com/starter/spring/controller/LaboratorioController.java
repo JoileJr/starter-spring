@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.starter.spring.dto.models.LaboratorioDTO;
+import com.starter.spring.dto.useCases.LaboratorioCreateRequest;
 import com.starter.spring.service.laboratorio.LaboratorioService;
 
 import jakarta.validation.Valid;
@@ -41,7 +42,7 @@ public class LaboratorioController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<LaboratorioDTO> create(@Valid @RequestBody LaboratorioDTO obj) {
+    public ResponseEntity<LaboratorioDTO> create(@Valid @RequestBody LaboratorioCreateRequest obj) {
         LaboratorioDTO firstEntityDTO = laboratorioService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(firstEntityDTO.getId())
                 .toUri();

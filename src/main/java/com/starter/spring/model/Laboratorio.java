@@ -47,7 +47,7 @@ public class Laboratorio {
 
     @JsonIgnore
     @OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Administrativo> administrativos;
+    private List<Pessoa> administrativos;
 
     @JsonIgnore
     @OneToMany(mappedBy = "laboratorio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

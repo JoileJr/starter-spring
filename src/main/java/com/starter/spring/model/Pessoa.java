@@ -71,6 +71,10 @@ public class Pessoa implements UserDetails {
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Exame> examesRealizados;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "laboratorio_id")
+    private Laboratorio laboratorio;
+
     @Override
     public String getPassword() {
         return senha;

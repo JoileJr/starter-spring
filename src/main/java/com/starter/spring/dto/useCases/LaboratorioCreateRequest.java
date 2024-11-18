@@ -1,8 +1,7 @@
-package com.starter.spring.dto.models;
+package com.starter.spring.dto.useCases;
 
 
-import java.util.List;
-
+import com.starter.spring.dto.models.EnderecoDTO;
 import com.starter.spring.model.Laboratorio;
 
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 @Data
-public class LaboratorioDTO {
+public class LaboratorioCreateRequest {
     private Long id;
 
     @NotNull(message = "O campo nome é requerido")
@@ -31,24 +30,9 @@ public class LaboratorioDTO {
 
     private EnderecoDTO endereco;
 
-    public static LaboratorioDTO toDTO(Laboratorio laboratorio) {
-        if (laboratorio == null) {
-            return null;
-        }
+    private Long idAdm;
 
-        LaboratorioDTO dto = new LaboratorioDTO();
-        dto.setId(laboratorio.getId());
-        dto.setNome(laboratorio.getNome());
-        dto.setCnpj(laboratorio.getCnpj());
-        dto.setTelefone(laboratorio.getTelefone());
-        dto.setRazaoSocial(laboratorio.getRazaoSocial());
-        dto.setEmail(laboratorio.getEmail());
-        dto.setEndereco(EnderecoDTO.toDTO(laboratorio.getEndereco()));
-
-        return dto;
-    }
-
-    public static Laboratorio toEntity(LaboratorioDTO dto) {
+    public static Laboratorio toEntity(LaboratorioCreateRequest dto) {
         if (dto == null) {
             return null;
         }

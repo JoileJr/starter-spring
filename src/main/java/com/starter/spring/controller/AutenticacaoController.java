@@ -1,6 +1,5 @@
 package com.starter.spring.controller;
 
-import com.starter.spring.dto.models.PessoaDTO;
 import com.starter.spring.dto.useCases.LoginRequest;
 import com.starter.spring.dto.useCases.LoginResponse;
 import com.starter.spring.dto.useCases.SingUpRequest;
