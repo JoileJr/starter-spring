@@ -151,9 +151,6 @@ class PacienteServiceImplTest {
         pacienteDTO.setSenha("senha123");
         pacienteDTO.setDataNascimento(new Date());
         pacienteDTO.setPerfis(new HashSet<>());
-        pacienteDTO.setConvenios(new ArrayList<>());
-        pacienteDTO.setProntuarios(new ArrayList<>());
-        pacienteDTO.setExamesRealizados(new ArrayList<>());
         return pacienteDTO;
     }
 

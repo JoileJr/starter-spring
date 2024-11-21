@@ -2,7 +2,6 @@ package com.starter.spring.dto.models;
 
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,14 +39,6 @@ public class PessoaDTO {
 
     private Set<PerfilDTO> perfis;
 
-    private List<ConvenioDTO> convenios;
-
-    private List<ProntuarioDTO> prontuarios;
-
-    private List<ExameDTO> examesRealizados;
-
-    private LaboratorioDTO laboratorio;
-
     public static PessoaDTO toDTO(Pessoa pessoa) {
         if (pessoa == null) {
             return null;
@@ -65,18 +56,6 @@ public class PessoaDTO {
         dto.setPerfis(pessoa.getPerfis().stream()
                         .map(PerfilDTO::toDTO)
                         .collect(Collectors.toSet()));
-        dto.setConvenios(pessoa.getConvenios().stream()
-                .map(ConvenioDTO::toDTO)
-                .collect(Collectors.toList()));
-        dto.setProntuarios(pessoa.getProntuarios().stream()
-                .map(ProntuarioDTO::toDTO)
-                .collect(Collectors.toList()));
-        dto.setExamesRealizados(pessoa.getExamesRealizados().stream()
-                .map(ExameDTO::toDTO)
-                .collect(Collectors.toList()));
-        dto.setLaboratorio(LaboratorioDTO.toDTO(pessoa.getLaboratorio()));
-
-
         return dto;
     }
 
@@ -97,16 +76,6 @@ public class PessoaDTO {
         pessoa.setPerfis(dto.getPerfis().stream()
                         .map(PerfilDTO::toEntity)
                         .collect(Collectors.toSet()));
-        pessoa.setConvenios(dto.getConvenios().stream()
-                .map(ConvenioDTO::toEntity)
-                .collect(Collectors.toList()));
-        pessoa.setProntuarios(dto.getProntuarios().stream()
-                .map(ProntuarioDTO::toEntity)
-                .collect(Collectors.toList()));
-        pessoa.setExamesRealizados(dto.getExamesRealizados().stream()
-                .map(ExameDTO::toEntity)
-                .collect(Collectors.toList()));
-        pessoa.setLaboratorio(LaboratorioDTO.toEntity(dto.getLaboratorio()));
         return pessoa;
     }
 

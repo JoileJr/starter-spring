@@ -45,7 +45,9 @@ public class PacienteServiceImpl implements PacienteService {
     public PessoaDTO create(PessoaDTO objDTO) {
         validateByEmailAndCpf(objDTO);
         Set<Perfil> perfis = getDefaultProfiles();
-        objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
+        if(objDTO.getSenha() != null){
+            objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
+        }
         Pessoa paciente = PessoaDTO.toEntity(objDTO);
         paciente.setPerfis(perfis);
         paciente = pessoaRepository.save(paciente);
@@ -56,7 +58,6 @@ public class PacienteServiceImpl implements PacienteService {
     @Override
     public PessoaDTO update(Long Id, PessoaDTO objDTO) {
         objDTO.setId(Id);
-		validateByEmailAndCpf(objDTO);
         Set<Perfil> perfis = getDefaultProfiles();
         Pessoa paciente = PessoaDTO.toEntity(objDTO);
         paciente.setPerfis(perfis);

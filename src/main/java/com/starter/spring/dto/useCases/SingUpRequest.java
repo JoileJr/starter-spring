@@ -1,7 +1,6 @@
 package com.starter.spring.dto.useCases;
 
 import java.util.Date;
-import java.util.List;
 import com.starter.spring.model.Pessoa;
 
 import jakarta.validation.constraints.NotNull;

@@ -1,8 +1,6 @@
 package com.starter.spring.dto.models;
 
 
-import java.util.List;
-
 import com.starter.spring.model.Laboratorio;
 
 import jakarta.validation.constraints.NotNull;
