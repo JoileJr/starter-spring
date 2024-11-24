@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 
 import com.starter.spring.dto.models.PessoaDTO;
+import com.starter.spring.dto.useCases.FilterPersonsRequest;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +40,12 @@ public class PacienteController {
     public ResponseEntity<PessoaDTO> findById(@PathVariable Long id) {
         PessoaDTO obj = pacienteService.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @PostMapping("/find")
+    public ResponseEntity<List<PessoaDTO>> findByFilter(@Valid @RequestBody FilterPersonsRequest obj) {
+        List<PessoaDTO> list = pacienteService.findByFilter(obj);
+        return ResponseEntity.ok(list);
     }
 
     @PostMapping("/")

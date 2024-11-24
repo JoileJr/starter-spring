@@ -1,6 +1,7 @@
 package com.starter.spring.service.paciente;
 
 import com.starter.spring.dto.models.PessoaDTO;
+import com.starter.spring.dto.useCases.FilterPersonsRequest;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface PacienteService {
     PessoaDTO create(PessoaDTO objDTO);
 
     PessoaDTO update(Long Id, PessoaDTO objDTO);
+
+    List<PessoaDTO> findByFilter(FilterPersonsRequest obj);
 }

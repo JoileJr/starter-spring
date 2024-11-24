@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.starter.spring.dto.models.PessoaDTO;
+import com.starter.spring.dto.useCases.FilterPersonsRequest;
 import com.starter.spring.enums.TipoUsuario;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,12 @@ import com.starter.spring.model.Pessoa;
 import com.starter.spring.repository.PerfilRepository;
 import com.starter.spring.repository.PessoaRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +32,9 @@ public class PacienteServiceImpl implements PacienteService {
 	private final PessoaRepository pessoaRepository;
 
     private final PerfilRepository perfilRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public PessoaDTO findById(Long id) {
@@ -38,6 +48,45 @@ public class PacienteServiceImpl implements PacienteService {
         return pacientes.stream()
                         .map(PessoaDTO::toDTO)
                         .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PessoaDTO> findByFilter(FilterPersonsRequest obj) {
+        String nome = obj.getNome();
+        String cpf = obj.getCpf();
+        Date dataInicio = obj.getDataInicio();
+        Date dataFim = obj.getDataFim();
+
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pessoa> query = cb.createQuery(Pessoa.class);
+        Root<Pessoa> root = query.from(Pessoa.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (nome != null && !nome.isEmpty()) {
+            predicates.add(cb.like(cb.lower(root.get("nome")), "%" + nome.toLowerCase() + "%"));
+        }
+
+        if (cpf != null && !cpf.isEmpty()) {
+            predicates.add(cb.equal(root.get("cpf"), cpf));
+        }
+
+        if (dataInicio != null) {
+            predicates.add(cb.greaterThanOrEqualTo(root.get("dataNascimento"), dataInicio));
+        }
+        if (dataFim != null) {
+            predicates.add(cb.lessThanOrEqualTo(root.get("dataNascimento"), dataFim));
+        }
+
+        if (!predicates.isEmpty()) {
+            query.where(cb.and(predicates.toArray(new Predicate[0])));
+        }
+
+        List<Pessoa> pessoas = entityManager.createQuery(query).getResultList();
+
+        return pessoas.stream()
+                      .map(PessoaDTO::toDTO)
+                      .collect(Collectors.toList());
     }
 
     @Transactional
