@@ -1,6 +1,5 @@
 package com.starter.spring.dto.models;
 
-
 import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,13 +30,15 @@ public class PessoaDTO {
     @NotNull(message = "O campo email é requerido")
     private String email;
 
-//    @NotNull(message = "O campo senha é requerido")
+    // @NotNull(message = "O campo senha é requerido")
     private String senha;
 
     @NotNull(message = "O campo dataNascimento é requerido")
     private Date dataNascimento;
 
     private Set<PerfilDTO> perfis;
+
+    private LaboratorioDTO laboratorio;
 
     public static PessoaDTO toDTO(Pessoa pessoa) {
         if (pessoa == null) {
@@ -54,8 +55,9 @@ public class PessoaDTO {
         dto.setSenha(pessoa.getSenha());
         dto.setDataNascimento(pessoa.getDataNascimento());
         dto.setPerfis(pessoa.getPerfis().stream()
-                        .map(PerfilDTO::toDTO)
-                        .collect(Collectors.toSet()));
+                .map(PerfilDTO::toDTO)
+                .collect(Collectors.toSet()));
+        dto.setLaboratorio(LaboratorioDTO.toDTO(pessoa.getLaboratorio()));
         return dto;
     }
 
@@ -74,8 +76,8 @@ public class PessoaDTO {
         pessoa.setSenha(dto.getSenha());
         pessoa.setDataNascimento(dto.getDataNascimento());
         pessoa.setPerfis(dto.getPerfis().stream()
-                        .map(PerfilDTO::toEntity)
-                        .collect(Collectors.toSet()));
+                .map(PerfilDTO::toEntity)
+                .collect(Collectors.toSet()));
         return pessoa;
     }
 
