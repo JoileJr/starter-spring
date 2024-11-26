@@ -1,6 +1,7 @@
 package com.starter.spring.controller;
 
 import com.starter.spring.dto.models.ProfissionalSaudeDTO;
+import com.starter.spring.dto.useCases.ProfissionalSaudeRequest;
 import com.starter.spring.service.funcionarios.FuncionarioService;
 
 import jakarta.validation.Valid;
@@ -33,14 +34,14 @@ public class FuncionarioController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<ProfissionalSaudeDTO> create(@Valid @RequestBody ProfissionalSaudeDTO obj) {
+    public ResponseEntity<ProfissionalSaudeDTO> create(@Valid @RequestBody ProfissionalSaudeRequest obj) {
         ProfissionalSaudeDTO firstEntityDTO = enfermeiroService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(firstEntityDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProfissionalSaudeDTO> update(@PathVariable Long id, @Valid @RequestBody ProfissionalSaudeDTO objDTO) {
+    public ResponseEntity<ProfissionalSaudeDTO> update(@PathVariable Long id, @Valid @RequestBody ProfissionalSaudeRequest objDTO) {
         ProfissionalSaudeDTO obj = enfermeiroService.update(id, objDTO);
         return ResponseEntity.ok().body(obj);
     }

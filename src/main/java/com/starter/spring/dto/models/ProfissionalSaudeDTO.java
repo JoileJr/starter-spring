@@ -3,7 +3,6 @@ package com.starter.spring.dto.models;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.starter.spring.enums.TipoUsuario;
 import com.starter.spring.model.ProfissionalSaude;
 
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +16,7 @@ public class ProfissionalSaudeDTO extends PessoaDTO {
     @NotNull(message = "O registro profissional é requerido")
     private String registroProfissional;
 
-    private TipoUsuario tipoProfissional;
+    private String tipoProfissional;
 
     @NotNull(message = "A região é requerida")
     private String regiao;
@@ -47,9 +46,6 @@ public class ProfissionalSaudeDTO extends PessoaDTO {
         dto.setTipoProfissional(enfermeiro.getTipoProfissional());
         dto.setRegiao(enfermeiro.getRegiao());
         dto.setLaboratorio(LaboratorioDTO.toDTO(enfermeiro.getLaboratorio()));
-        dto.setExames(enfermeiro.getExames().stream()
-                        .map(ExameDTO::toDTO)
-                        .collect(Collectors.toList()));
 
         return dto;
     }
@@ -75,9 +71,6 @@ public class ProfissionalSaudeDTO extends PessoaDTO {
         enfermeiro.setTipoProfissional(dto.getTipoProfissional());
         enfermeiro.setRegiao(dto.getRegiao());
         enfermeiro.setLaboratorio(LaboratorioDTO.toEntity(dto.getLaboratorio()));
-        enfermeiro.setExames(dto.getExames().stream()
-                        .map(ExameDTO::toEntity)
-                        .collect(Collectors.toList()));
 
         return enfermeiro;
     }

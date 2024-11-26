@@ -1,7 +1,7 @@
 package com.starter.spring.service.funcionarios;
 
-import com.starter.spring.dto.models.PerfilDTO;
 import com.starter.spring.dto.models.ProfissionalSaudeDTO;
+import com.starter.spring.dto.useCases.ProfissionalSaudeRequest;
 import com.starter.spring.enums.TipoUsuario;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
 import com.starter.spring.exceptions.ObjectnotFoundException;
@@ -13,7 +13,6 @@ import com.starter.spring.repository.PerfilRepository;
 import com.starter.spring.repository.PessoaRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -32,7 +31,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Override
     public ProfissionalSaudeDTO findById(Long id) {
         Optional<ProfissionalSaude> obj = enfermeiroRepository.findById(id);
-        return ProfissionalSaudeDTO.toDTO(obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id)));
+        return ProfissionalSaudeDTO
+                .toDTO(obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id)));
     }
 
     @Override
@@ -45,14 +45,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     @Transactional
     @Override
-    public ProfissionalSaudeDTO create(ProfissionalSaudeDTO objDTO) {
+    public ProfissionalSaudeDTO create(ProfissionalSaudeRequest objDTO) {
         validateByEmailAndCpf(objDTO);
-        List<String> descricoesPerfis = objDTO.getPerfis().stream()
-                .map(PerfilDTO::getNome)
-                .toList();
-        Set<Perfil> perfis = getDefaultProfiles(descricoesPerfis);
-        objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
-        ProfissionalSaude enfermeiro = ProfissionalSaudeDTO.toEntity(objDTO);
+        Set<Perfil> perfis = getDefaultProfiles(objDTO.getPerfis());
+        ProfissionalSaude enfermeiro = ProfissionalSaudeRequest.toEntity(objDTO);
         enfermeiro.setPerfis(perfis);
         enfermeiro = enfermeiroRepository.save(enfermeiro);
         return ProfissionalSaudeDTO.toDTO(enfermeiro);
@@ -60,30 +56,40 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     @Transactional
     @Override
-    public ProfissionalSaudeDTO update(Long Id, ProfissionalSaudeDTO objDTO) {
+    public ProfissionalSaudeDTO update(Long Id, ProfissionalSaudeRequest objDTO) {
         objDTO.setId(Id);
-        // alterar forma de receber roles
-        Set<Perfil> perfis = getDefaultProfiles(Arrays.asList(TipoUsuario.PACIENTE.getDescricao()));
-        ProfissionalSaude enfermeiro = ProfissionalSaudeDTO.toEntity(objDTO);
+        Set<Perfil> perfis = getDefaultProfiles(objDTO.getPerfis());
+        ProfissionalSaude enfermeiro = ProfissionalSaudeRequest.toEntity(objDTO);
         enfermeiro.setPerfis(perfis);
         enfermeiro = enfermeiroRepository.save(enfermeiro);
         return ProfissionalSaudeDTO.toDTO(enfermeiro);
     }
 
-    private void validateByEmailAndCpf(ProfissionalSaudeDTO objDTO) {
+    private void validateByEmailAndCpf(ProfissionalSaudeRequest objDTO) {
         Optional<Pessoa> obj = pessoaRepository.findByCpfOrEmail(objDTO.getCpf(), objDTO.getEmail());
         if (obj.isPresent()) {
             throw new DataIntegrityViolationException("CPF ou E-mail já cadastrado no sistema!");
         }
     }
 
-    private Set<Perfil> getDefaultProfiles(List<String> perfisBuscar) {
+    private Set<Perfil> getDefaultProfiles(String perfisBuscar) {
         Set<Perfil> perfis = new HashSet<>();
-        List<Perfil> perfisList = perfilRepository.findByNomeIn(perfisBuscar);
-
-        if (!perfisList.isEmpty()) {
-            perfis.addAll(perfisList);
+        Perfil perfil;
+        if (perfisBuscar == TipoUsuario.BIOMEDICO.getDescricao()) {
+            perfil = perfilRepository.findByNome(TipoUsuario.BIOMEDICO.getDescricao());
+        } else if (perfisBuscar == TipoUsuario.ENFERMEIRO.getDescricao()) {
+            perfil = perfilRepository.findByNome(TipoUsuario.ENFERMEIRO.getDescricao());
+        } else if (perfisBuscar == TipoUsuario.TECNICO_ENFERMAGEM.getDescricao()) {
+            perfil = perfilRepository.findByNome(TipoUsuario.TECNICO_ENFERMAGEM.getDescricao());
+        } else if (perfisBuscar == TipoUsuario.MEDICO.getDescricao()) {
+            perfil = perfilRepository.findByNome(TipoUsuario.MEDICO.getDescricao());
+        } else {
+            perfil = perfilRepository.findByNome(TipoUsuario.PACIENTE.getDescricao());
+        }
+        if (perfil != null) {
+            perfis.add(perfil);
         }
         return perfis;
     }
+
 }

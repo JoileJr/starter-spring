@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import com.starter.spring.enums.TipoUsuario;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,7 +26,7 @@ public class ProfissionalSaude extends Pessoa {
     private String regiao;
 
     @Column(name = "tipoProfissional")
-    private TipoUsuario tipoProfissional;
+    private String tipoProfissional;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
