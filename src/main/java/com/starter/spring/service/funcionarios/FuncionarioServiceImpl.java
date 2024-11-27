@@ -67,14 +67,33 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     @Transactional
     @Override
-    public ProfissionalSaudeDTO update(Long Id, ProfissionalSaudeRequest objDTO) {
-        objDTO.setId(Id);
+    public ProfissionalSaudeDTO update(Long id, ProfissionalSaudeRequest objDTO) {
+        Optional<Pessoa> pessoaExistente = pessoaRepository.findById(objDTO.getId());
+    
+        ProfissionalSaude profissionalSaude;
+    
+        if (pessoaExistente.isPresent()) {
+            Pessoa pessoa = pessoaExistente.get();
+    
+            if (pessoa instanceof ProfissionalSaude) {
+                profissionalSaude = (ProfissionalSaude) pessoa;
+            } else {
+                profissionalSaude = ProfissionalSaudeRequest.toEntity(objDTO);
+                profissionalSaude.setId(pessoa.getId());
+            }
+    
+        } else {
+            profissionalSaude = ProfissionalSaudeRequest.toEntity(objDTO);
+        }
+    
         Set<Perfil> perfis = getDefaultProfiles(objDTO.getPerfis());
-        ProfissionalSaude enfermeiro = ProfissionalSaudeRequest.toEntity(objDTO);
-        enfermeiro.setPerfis(perfis);
-        enfermeiro = enfermeiroRepository.save(enfermeiro);
-        return ProfissionalSaudeDTO.toDTO(enfermeiro);
+        profissionalSaude.setPerfis(perfis);
+    
+        profissionalSaude = enfermeiroRepository.save(profissionalSaude);
+    
+        return ProfissionalSaudeDTO.toDTO(profissionalSaude);
     }
+    
 
     private void validateByEmailAndCpf(ProfissionalSaudeRequest objDTO) {
         Optional<Pessoa> obj = pessoaRepository.findByCpfOrEmail(objDTO.getCpf(), objDTO.getEmail());

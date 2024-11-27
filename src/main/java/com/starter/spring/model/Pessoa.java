@@ -20,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "pessoa")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "tipo")
 public class Pessoa implements UserDetails {
 
     @Id

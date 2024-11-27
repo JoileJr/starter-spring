@@ -14,7 +14,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-@DiscriminatorValue("profissionalSaude")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ProfissionalSaude extends Pessoa {
 

@@ -42,6 +42,12 @@ public class PacienteController {
         return ResponseEntity.ok().body(obj);
     }
 
+    @GetMapping(value = "/find/{cpf}")
+    public ResponseEntity<PessoaDTO> findById(@PathVariable String cpf) {
+        PessoaDTO obj = pacienteService.findByCpf(cpf);
+        return ResponseEntity.ok().body(obj);
+    }
+
     @PostMapping("/find")
     public ResponseEntity<List<PessoaDTO>> findByFilter(@Valid @RequestBody FilterPersonsRequest obj) {
         List<PessoaDTO> list = pacienteService.findByFilter(obj);

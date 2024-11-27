@@ -17,6 +17,7 @@ import com.starter.spring.repository.PerfilRepository;
 import com.starter.spring.repository.PessoaRepository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -29,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PacienteServiceImpl implements PacienteService {
 
-	private final PessoaRepository pessoaRepository;
+    private final PessoaRepository pessoaRepository;
 
     private final PerfilRepository perfilRepository;
 
@@ -40,14 +41,38 @@ public class PacienteServiceImpl implements PacienteService {
     public PessoaDTO findById(Long id) {
         Optional<Pessoa> obj = pessoaRepository.findById(id);
         return PessoaDTO.toDTO(obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id)));
-	}
+    }
 
     @Override
-    public List<PessoaDTO> findAll(){
+    public PessoaDTO findByCpf(String cpf) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pessoa> query = cb.createQuery(Pessoa.class);
+        Root<Pessoa> root = query.from(Pessoa.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (cpf != null && !cpf.isEmpty()) {
+            predicates.add(cb.equal(root.get("cpf"), cpf));
+        }
+
+        if (!predicates.isEmpty()) {
+            query.where(cb.and(predicates.toArray(new Predicate[0])));
+        }
+
+        try {
+            Pessoa pessoa = entityManager.createQuery(query).getSingleResult();
+            return PessoaDTO.toDTO(pessoa);
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<PessoaDTO> findAll() {
         List<Pessoa> pacientes = pessoaRepository.findAll();
         return pacientes.stream()
-                        .map(PessoaDTO::toDTO)
-                        .collect(Collectors.toList());
+                .map(PessoaDTO::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -85,8 +110,8 @@ public class PacienteServiceImpl implements PacienteService {
         List<Pessoa> pessoas = entityManager.createQuery(query).getResultList();
 
         return pessoas.stream()
-                      .map(PessoaDTO::toDTO)
-                      .collect(Collectors.toList());
+                .map(PessoaDTO::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -94,7 +119,7 @@ public class PacienteServiceImpl implements PacienteService {
     public PessoaDTO create(PessoaDTO objDTO) {
         validateByEmailAndCpf(objDTO);
         Set<Perfil> perfis = getDefaultProfiles();
-        if(objDTO.getSenha() != null){
+        if (objDTO.getSenha() != null) {
             objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
         }
         Pessoa paciente = PessoaDTO.toEntity(objDTO);
@@ -112,7 +137,7 @@ public class PacienteServiceImpl implements PacienteService {
         paciente.setPerfis(perfis);
         paciente = pessoaRepository.save(paciente);
         return PessoaDTO.toDTO(paciente);
-	}
+    }
 
     private void validateByEmailAndCpf(PessoaDTO objDTO) {
         Optional<Pessoa> obj = pessoaRepository.findByCpfOrEmail(objDTO.getCpf(), objDTO.getEmail());

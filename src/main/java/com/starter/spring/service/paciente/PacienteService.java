@@ -9,6 +9,8 @@ public interface PacienteService {
     
     PessoaDTO findById(Long id);
 
+    PessoaDTO findByCpf(String cpf);
+
     List<PessoaDTO> findAll();
 
     PessoaDTO create(PessoaDTO objDTO);
