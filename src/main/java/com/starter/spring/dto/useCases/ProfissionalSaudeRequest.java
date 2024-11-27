@@ -3,7 +3,6 @@ package com.starter.spring.dto.useCases;
 import java.util.Date;
 
 import com.starter.spring.dto.models.LaboratorioDTO;
-import com.starter.spring.enums.TipoUsuario;
 import com.starter.spring.model.ProfissionalSaude;
 
 import jakarta.validation.constraints.NotNull;

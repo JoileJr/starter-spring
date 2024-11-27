@@ -1,6 +1,7 @@
 package com.starter.spring.controller;
 
 import com.starter.spring.dto.models.ProfissionalSaudeDTO;
+import com.starter.spring.dto.useCases.FilterHealthProfessionalRequest;
 import com.starter.spring.dto.useCases.ProfissionalSaudeRequest;
 import com.starter.spring.service.funcionarios.FuncionarioService;
 
@@ -38,6 +39,12 @@ public class FuncionarioController {
         ProfissionalSaudeDTO firstEntityDTO = enfermeiroService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(firstEntityDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @PostMapping("/find")
+    public ResponseEntity<List<ProfissionalSaudeDTO>> findByFilter(@Valid @RequestBody FilterHealthProfessionalRequest obj) {
+        List<ProfissionalSaudeDTO> list = enfermeiroService.findByFilter(obj);
+        return ResponseEntity.ok(list);
     }
 
     @PutMapping(value = "/{id}")

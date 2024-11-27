@@ -1,6 +1,7 @@
 package com.starter.spring.service.funcionarios;
 
 import com.starter.spring.dto.models.ProfissionalSaudeDTO;
+import com.starter.spring.dto.useCases.FilterHealthProfessionalRequest;
 import com.starter.spring.dto.useCases.ProfissionalSaudeRequest;
 import com.starter.spring.enums.TipoUsuario;
 import com.starter.spring.exceptions.DataIntegrityViolationException;
@@ -11,6 +12,13 @@ import com.starter.spring.model.Pessoa;
 import com.starter.spring.repository.EnfermeiroRepository;
 import com.starter.spring.repository.PerfilRepository;
 import com.starter.spring.repository.PessoaRepository;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +35,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     private final PessoaRepository pessoaRepository;
 
     private final PerfilRepository perfilRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public ProfissionalSaudeDTO findById(Long id) {
@@ -90,6 +101,66 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             perfis.add(perfil);
         }
         return perfis;
+    }
+
+    @Override
+    public List<ProfissionalSaudeDTO> findByFilter(FilterHealthProfessionalRequest obj) {
+        String nome = obj.getNome();
+        String cpf = obj.getCpf();
+        String email = obj.getEmail();
+        String telefone = obj.getTelefone();
+        String tipoProfissional = obj.getTipoProfissional();
+        String registroProfissional = obj.getRegistroProfissional();
+        Date dataInicio = obj.getDataInicio();
+        Date dataFim = obj.getDataFim();
+
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<ProfissionalSaude> query = cb.createQuery(ProfissionalSaude.class);
+        Root<ProfissionalSaude> root = query.from(ProfissionalSaude.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (nome != null && !nome.isEmpty()) {
+            predicates.add(cb.like(cb.lower(root.get("nome")), "%" + nome.toLowerCase() + "%"));
+        }
+
+        if (email != null && !email.isEmpty()) {
+            predicates.add(cb.like(cb.lower(root.get("email")), "%" + email.toLowerCase() + "%"));
+        }
+
+        if (registroProfissional != null && !registroProfissional.isEmpty()) {
+            predicates.add(cb.like(cb.lower(root.get("registroProfissional")), "%" + registroProfissional.toLowerCase() + "%"));
+        }
+
+        if (cpf != null && !cpf.isEmpty()) {
+            predicates.add(cb.equal(root.get("cpf"), cpf));
+        }
+
+        if (tipoProfissional != null && !tipoProfissional.isEmpty()) {
+            predicates.add(cb.equal(root.get("tipoProfissional"), tipoProfissional));
+        }
+
+        if (telefone != null && !telefone.isEmpty()) {
+            predicates.add(cb.equal(root.get("telefone"), telefone));
+        }
+
+        if (dataInicio != null) {
+            predicates.add(cb.greaterThanOrEqualTo(root.get("dataNascimento"), dataInicio));
+        }
+
+        if (dataFim != null) {
+            predicates.add(cb.lessThanOrEqualTo(root.get("dataNascimento"), dataFim));
+        }
+
+        if (!predicates.isEmpty()) {
+            query.where(cb.and(predicates.toArray(new Predicate[0])));
+        }
+
+        List<ProfissionalSaude> pessoas = entityManager.createQuery(query).getResultList();
+
+        return pessoas.stream()
+                .map(ProfissionalSaudeDTO::toDTO)
+                .collect(Collectors.toList());
     }
 
 }
