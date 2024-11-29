@@ -70,21 +70,12 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public ProfissionalSaudeDTO update(Long id, ProfissionalSaudeRequest objDTO) {
         Optional<Pessoa> pessoaExistente = pessoaRepository.findById(objDTO.getId());
     
-        ProfissionalSaude profissionalSaude;
+        ProfissionalSaude profissionalSaude = ProfissionalSaudeRequest.toEntity(objDTO);;
     
         if (pessoaExistente.isPresent()) {
-            Pessoa pessoa = pessoaExistente.get();
-    
-            if (pessoa instanceof ProfissionalSaude) {
-                profissionalSaude = (ProfissionalSaude) pessoa;
-            } else {
-                profissionalSaude = ProfissionalSaudeRequest.toEntity(objDTO);
-                profissionalSaude.setId(pessoa.getId());
-            }
-    
-        } else {
-            profissionalSaude = ProfissionalSaudeRequest.toEntity(objDTO);
-        }
+            profissionalSaude.setId(pessoaExistente.get().getId());
+            profissionalSaude.setSenha(pessoaExistente.get().getSenha());
+        } 
     
         Set<Perfil> perfis = getDefaultProfiles(objDTO.getPerfis());
         profissionalSaude.setPerfis(perfis);
