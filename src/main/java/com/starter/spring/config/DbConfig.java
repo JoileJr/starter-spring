@@ -20,6 +20,12 @@ public class DbConfig {
             if (!configService.perfisInstanciados()) {
                 configService.instanciaPerfil();
             }
+            if (!configService.tipoExameInstanciados()) {
+                configService.instanciaTipoExame();
+            }
+            if (!configService.parametrosInstanciados()) {
+                configService.instanciaParametro();
+            }
         };
     }
 }
