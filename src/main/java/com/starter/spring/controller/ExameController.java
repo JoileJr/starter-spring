@@ -1,6 +1,7 @@
 package com.starter.spring.controller;
 
 import com.starter.spring.dto.models.ExameDTO;
+import com.starter.spring.dto.models.ResultadoParametroDTO;
 import com.starter.spring.service.exames.ExamesService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,13 @@ public class ExameController {
         List<ExameDTO> list = examesService.listarExames();
         return ResponseEntity.ok(list);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<ResultadoParametroDTO>> listarResultados(@PathVariable Long id) {
+        List<ResultadoParametroDTO> list = examesService.listarResultados(id);
+        return ResponseEntity.ok(list);
+    }
+
 
     @PostMapping("/")
     public ResponseEntity<ExameDTO> create(@Valid @RequestBody ExameDTO obj) {

@@ -40,12 +40,28 @@ public class ExamesServiceImpl implements ExamesService {
         return ExameDTO.toDTO(exame);
     }
 
+    @Transactional
     @Override
     public List<ExameDTO> listarExames() {
         List<Exame> exames = exameRepository.findAll();
-        return exames.stream()
-                .map(ExameDTO::toDTO)
-                .collect(Collectors.toList());
+        List<ExameDTO> examesDTO = new ArrayList<>();
+
+        for (Exame exame : exames) {
+            List<ResultadoParametro> rps = resultadoParametroRepository.findByExame_IdAndParametro_TipoExame_Id(exame.getId(), exame.getTipoExame().getId());
+            List<ResultadoParametroDTO> rpsDTO = rps.stream().map(ResultadoParametroDTO::toDTO).toList();
+            ExameDTO dto = ExameDTO.toDTO(exame);
+            dto.setResultadoParametros(rpsDTO);
+            examesDTO.add(dto);
+        }
+        return examesDTO;
+    }
+
+    @Transactional
+    @Override
+    public List<ResultadoParametroDTO> listarResultados(Long IdExame) {
+        List<ResultadoParametro> rps = resultadoParametroRepository.findByExame_Id(IdExame);
+        List<ResultadoParametroDTO> rpsDTO = rps.stream().map(ResultadoParametroDTO::toDTO).toList();
+        return rpsDTO;
     }
 
 }
