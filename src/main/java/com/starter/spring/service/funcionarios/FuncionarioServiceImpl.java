@@ -69,22 +69,17 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Override
     public ProfissionalSaudeDTO update(Long id, ProfissionalSaudeRequest objDTO) {
         Optional<Pessoa> pessoaExistente = pessoaRepository.findById(objDTO.getId());
-    
-        ProfissionalSaude profissionalSaude = ProfissionalSaudeRequest.toEntity(objDTO);;
-    
+        ProfissionalSaude profissionalSaude = ProfissionalSaudeRequest.toEntity(objDTO);
         if (pessoaExistente.isPresent()) {
             profissionalSaude.setId(pessoaExistente.get().getId());
             profissionalSaude.setSenha(pessoaExistente.get().getSenha());
-        } 
-    
+        }
         Set<Perfil> perfis = getDefaultProfiles(objDTO.getPerfis());
         profissionalSaude.setPerfis(perfis);
-    
         profissionalSaude = enfermeiroRepository.save(profissionalSaude);
-    
         return ProfissionalSaudeDTO.toDTO(profissionalSaude);
     }
-    
+
 
     private void validateByEmailAndCpf(ProfissionalSaudeRequest objDTO) {
         Optional<Pessoa> obj = pessoaRepository.findByCpfOrEmail(objDTO.getCpf(), objDTO.getEmail());
@@ -96,13 +91,13 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     private Set<Perfil> getDefaultProfiles(String perfisBuscar) {
         Set<Perfil> perfis = new HashSet<>();
         Perfil perfil;
-        if (perfisBuscar == TipoUsuario.BIOMEDICO.getDescricao()) {
+        if (perfisBuscar.equals(TipoUsuario.BIOMEDICO.getDescricao())) {
             perfil = perfilRepository.findByNome(TipoUsuario.BIOMEDICO.getDescricao());
-        } else if (perfisBuscar == TipoUsuario.ENFERMEIRO.getDescricao()) {
+        } else if (perfisBuscar.equals(TipoUsuario.ENFERMEIRO.getDescricao())) {
             perfil = perfilRepository.findByNome(TipoUsuario.ENFERMEIRO.getDescricao());
-        } else if (perfisBuscar == TipoUsuario.TECNICO_ENFERMAGEM.getDescricao()) {
+        } else if (perfisBuscar.equals(TipoUsuario.TECNICO_ENFERMAGEM.getDescricao())) {
             perfil = perfilRepository.findByNome(TipoUsuario.TECNICO_ENFERMAGEM.getDescricao());
-        } else if (perfisBuscar == TipoUsuario.MEDICO.getDescricao()) {
+        } else if (perfisBuscar.equals(TipoUsuario.MEDICO.getDescricao())) {
             perfil = perfilRepository.findByNome(TipoUsuario.MEDICO.getDescricao());
         } else {
             perfil = perfilRepository.findByNome(TipoUsuario.PACIENTE.getDescricao());

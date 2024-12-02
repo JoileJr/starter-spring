@@ -77,9 +77,9 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
     private Set<Perfil> getDefaultProfiles(String perfisBuscar) {
         Set<Perfil> perfis = new HashSet<>();
         Perfil perfil;
-        if(perfisBuscar == TipoUsuario.ADMINSTRADOR.getDescricao()){
+        if (perfisBuscar.equals(TipoUsuario.ADMINSTRADOR.getDescricao())) {
             perfil = perfilRepository.findByNome(TipoUsuario.ADMINSTRADOR.getDescricao());
-        } else{
+        } else {
             perfil = perfilRepository.findByNome(TipoUsuario.PACIENTE.getDescricao());
         }
         if (perfil != null) {

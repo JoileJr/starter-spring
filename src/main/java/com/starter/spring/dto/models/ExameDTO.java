@@ -37,9 +37,6 @@ public class ExameDTO {
         dto.setProfissionalSaude(ProfissionalSaudeDTO.toDTO(exame.getProfissionalSaude()));
         dto.setLaboratorio(LaboratorioDTO.toDTO(exame.getLaboratorio()));
         dto.setTipoExame(TipoExameDTO.toDTO(exame.getTipoExame()));
-        dto.setResultadoParametros(exame.getResultadoParametros().stream()
-                        .map(ResultadoParametroDTO::toDTO)
-                        .collect(Collectors.toList()));
 
         return dto;
     }
@@ -56,9 +53,6 @@ public class ExameDTO {
         exame.setProfissionalSaude(ProfissionalSaudeDTO.toEntity(dto.getProfissionalSaude()));
         exame.setLaboratorio(LaboratorioDTO.toEntity(dto.getLaboratorio()));
         exame.setTipoExame(TipoExameDTO.toEntity(dto.getTipoExame()));
-        exame.setResultadoParametros(dto.getResultadoParametros().stream()
-                        .map(ResultadoParametroDTO::toEntity)
-                        .collect(Collectors.toList()));
 
         return exame;
     }

@@ -52,8 +52,5 @@ public class Parametro {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tipoExame_id")
     private TipoExame tipoExame;
-
-    @OneToMany(mappedBy = "parametro", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ResultadoParametro> ResultadoParametros;
     
 }

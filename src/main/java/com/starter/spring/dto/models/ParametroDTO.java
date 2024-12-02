@@ -1,10 +1,8 @@
 package com.starter.spring.dto.models;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.starter.spring.model.Parametro;
-import com.starter.spring.model.ResultadoParametro;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -28,8 +26,6 @@ public class ParametroDTO {
 
     private TipoExameDTO tipoExame;
 
-    private List<ResultadoParametroDTO> ResultadoParametros;
-
     public static Parametro toEntity(ParametroDTO dto) {
         if (dto == null) {
             return null;
@@ -45,14 +41,6 @@ public class ParametroDTO {
         // Conversão do TipoExame
         if (dto.getTipoExame() != null) {
             parametro.setTipoExame(TipoExameDTO.toEntity(dto.getTipoExame()));
-        }
-
-        // Conversão dos ResultadoParametros
-        if (dto.getResultadoParametros() != null) {
-            List<ResultadoParametro> resultadoParametros = dto.getResultadoParametros().stream()
-                .map(ResultadoParametroDTO::toEntity)
-                .collect(Collectors.toList());
-            parametro.setResultadoParametros(resultadoParametros);
         }
 
         return parametro;
@@ -74,14 +62,7 @@ public class ParametroDTO {
             dto.setTipoExame(TipoExameDTO.toDTO(parametro.getTipoExame()));
         }
 
-        if (parametro.getResultadoParametros() != null) {
-            List<ResultadoParametroDTO> resultadoParametros = parametro.getResultadoParametros().stream()
-                .map(ResultadoParametroDTO::toDTO)
-                .collect(Collectors.toList());
-            dto.setResultadoParametros(resultadoParametros);
-        }
-
         return dto;
     }
-    
+
 }
