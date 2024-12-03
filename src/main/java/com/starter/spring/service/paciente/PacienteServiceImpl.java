@@ -132,9 +132,7 @@ public class PacienteServiceImpl implements PacienteService {
     @Override
     public PessoaDTO update(Long Id, PessoaDTO objDTO) {
         objDTO.setId(Id);
-        Set<Perfil> perfis = getDefaultProfiles();
         Pessoa paciente = PessoaDTO.toEntity(objDTO);
-        paciente.setPerfis(perfis);
         paciente = pessoaRepository.save(paciente);
         return PessoaDTO.toDTO(paciente);
     }
