@@ -82,15 +82,8 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     public List<Parametro> parametrosExameSangue() {
-        Parametro hemacias = Parametro.builder()
-                .nome("Hemácias")
-                .unidadeDeMedida("milhões/mm³")
-                .valorReferenciaMinimo("4.5")
-                .valorReferenciaMaximo("5.5")
-                .tipoExame(tipoExameRepository.findById(1L).get())
-                .build();
-
         Parametro hemoglobina = Parametro.builder()
+                .id(1L)
                 .nome("Hemoglobina")
                 .unidadeDeMedida("g/dL")
                 .valorReferenciaMinimo("12.0")
@@ -98,7 +91,17 @@ public class ConfigServiceImpl implements ConfigService {
                 .tipoExame(tipoExameRepository.findById(1L).get())
                 .build();
 
+        Parametro hemacias = Parametro.builder()
+                .id(2L)
+                .nome("Hemácias")
+                .unidadeDeMedida("milhões/mm³")
+                .valorReferenciaMinimo("4.5")
+                .valorReferenciaMaximo("5.5")
+                .tipoExame(tipoExameRepository.findById(1L).get())
+                .build();
+
         Parametro hematocrito = Parametro.builder()
+                .id(3L)
                 .nome("Hematócrito")
                 .unidadeDeMedida("%")
                 .valorReferenciaMinimo("36")
@@ -107,6 +110,7 @@ public class ConfigServiceImpl implements ConfigService {
                 .build();
 
         Parametro leucocitos = Parametro.builder()
+                .id(4L)
                 .nome("Leucócitos")
                 .unidadeDeMedida("/mm³")
                 .valorReferenciaMinimo("4000")
@@ -115,6 +119,7 @@ public class ConfigServiceImpl implements ConfigService {
                 .build();
 
         Parametro plaquetas = Parametro.builder()
+                .id(5L)
                 .nome("Plaquetas")
                 .unidadeDeMedida("mil/mm³")
                 .valorReferenciaMinimo("150")
@@ -123,6 +128,7 @@ public class ConfigServiceImpl implements ConfigService {
                 .build();
 
         Parametro glicose = Parametro.builder()
+                .id(6L)
                 .nome("Glicose")
                 .unidadeDeMedida("mg/dL")
                 .valorReferenciaMinimo("70")
@@ -131,6 +137,7 @@ public class ConfigServiceImpl implements ConfigService {
                 .build();
 
         Parametro colesterolTotal = Parametro.builder()
+                .id(7L)
                 .nome("Colesterol Total")
                 .unidadeDeMedida("mg/dL")
                 .valorReferenciaMinimo("0")
@@ -139,6 +146,7 @@ public class ConfigServiceImpl implements ConfigService {
                 .build();
 
         Parametro colesterolHDL = Parametro.builder()
+                .id(8L)
                 .nome("Colesterol HDL")
                 .unidadeDeMedida("mg/dL")
                 .valorReferenciaMinimo("40")
@@ -147,6 +155,7 @@ public class ConfigServiceImpl implements ConfigService {
                 .build();
 
         Parametro triglicerideos = Parametro.builder()
+                .id(9L)
                 .nome("Triglicerídeos")
                 .unidadeDeMedida("mg/dL")
                 .valorReferenciaMinimo("0")
@@ -155,6 +164,7 @@ public class ConfigServiceImpl implements ConfigService {
                 .build();
 
         Parametro creatinina = Parametro.builder()
+                .id(10L)
                 .nome("Creatinina")
                 .unidadeDeMedida("mg/dL")
                 .valorReferenciaMinimo("0.7")
@@ -162,8 +172,8 @@ public class ConfigServiceImpl implements ConfigService {
                 .tipoExame(tipoExameRepository.findById(1L).get())
                 .build();
 
-        return Arrays.asList(hemoglobina, hemacias, hematocrito, leucocitos, plaquetas, glicose, colesterolTotal,
-                colesterolHDL, triglicerideos, creatinina);
+        return Arrays.asList(hemacias, hemoglobina, hematocrito, leucocitos, plaquetas, 
+                glicose, colesterolTotal,colesterolHDL, triglicerideos, creatinina);
     }
 
 }

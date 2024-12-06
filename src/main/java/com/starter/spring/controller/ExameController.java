@@ -2,6 +2,7 @@ package com.starter.spring.controller;
 
 import com.starter.spring.dto.models.ExameDTO;
 import com.starter.spring.dto.models.ResultadoParametroDTO;
+import com.starter.spring.dto.useCases.FindExamByFilterRequest;
 import com.starter.spring.service.exames.ExamesService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,9 @@ public class ExameController {
 
     private final ExamesService examesService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<ExameDTO>> listarExames() {
-        List<ExameDTO> list = examesService.listarExames();
+    @PostMapping("/list")
+    public ResponseEntity<List<ExameDTO>> listarExames(@RequestBody FindExamByFilterRequest filter) {
+        List<ExameDTO> list = examesService.listarExames(filter);
         return ResponseEntity.ok(list);
     }
 
@@ -31,7 +32,6 @@ public class ExameController {
         List<ResultadoParametroDTO> list = examesService.listarResultados(id);
         return ResponseEntity.ok(list);
     }
-
 
     @PostMapping("/")
     public ResponseEntity<ExameDTO> create(@Valid @RequestBody ExameDTO obj) {

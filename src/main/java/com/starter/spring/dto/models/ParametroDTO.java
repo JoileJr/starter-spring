@@ -1,7 +1,5 @@
 package com.starter.spring.dto.models;
 
-import java.util.List;
-
 import com.starter.spring.model.Parametro;
 
 import jakarta.validation.constraints.NotNull;
