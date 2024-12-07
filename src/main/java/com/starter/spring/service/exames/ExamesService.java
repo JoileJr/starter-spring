@@ -8,6 +8,10 @@ import java.util.List;
 
 public interface ExamesService {
 
+    void addParams(String key, Object value);
+
+    byte[] exportarPDF(Long code);
+
     ExameDTO criarExame(ExameDTO exameDTO);
 
     List<ExameDTO> listarExames(FindExamByFilterRequest filter);

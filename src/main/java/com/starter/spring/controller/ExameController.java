@@ -4,12 +4,17 @@ import com.starter.spring.dto.models.ExameDTO;
 import com.starter.spring.dto.models.ResultadoParametroDTO;
 import com.starter.spring.dto.useCases.FindExamByFilterRequest;
 import com.starter.spring.service.exames.ExamesService;
+
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -38,6 +43,14 @@ public class ExameController {
         ExameDTO firstEntityDTO = examesService.criarExame(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(firstEntityDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @GetMapping("/relatorio/pdf/{code}")
+    public void exportRelatorio(@PathVariable("code") Long code,
+                                HttpServletResponse response) throws IOException {
+        byte[] bytes = examesService.exportarPDF(code);
+        response.setContentType(MediaType.APPLICATION_PDF_VALUE);
+        response.getOutputStream().write(bytes);
     }
 
 }

@@ -20,21 +20,59 @@ import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import lombok.RequiredArgsConstructor;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
+import java.io.File;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class ExamesServiceImpl implements ExamesService {
+    private static final String JASPER_DIRETORIO = "classpath:jasper/";
+    private static final String JASPER_PREFIXO = "exame-relatorio";
+    private static final String JASPER_SUFIXO = ".jasper";
+    private static final String JASPER_PARAM = "ExameID";
+
     private final ExameRepository exameRepository;
     private final ResultadoParametroRepository resultadoParametroRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    private final Connection connection;
+
+    private Map<String, Object> params = new HashMap<>();
+
+    @Override
+    public void addParams(String key, Object value) {
+        this.params.put(key, value);
+    }
+
+    @Override
+    public byte[] exportarPDF(Long code){
+        byte[] bytes = null;
+        try {
+            this.addParams(JASPER_PARAM, code);
+            File file = ResourceUtils.getFile(JASPER_DIRETORIO
+                    .concat(JASPER_PREFIXO)
+                    .concat(JASPER_SUFIXO));
+            JasperPrint print = JasperFillManager.fillReport(file.getAbsolutePath(), params, connection);
+            bytes = JasperExportManager.exportReportToPdf(print);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bytes;
+    }
 
     @Transactional
     @Override
