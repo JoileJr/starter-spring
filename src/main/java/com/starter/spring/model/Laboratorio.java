@@ -38,6 +38,9 @@ public class Laboratorio {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "ativo")
+    private Boolean ativo;
+
     @OneToOne
     private Endereco endereco;
 

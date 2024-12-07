@@ -63,6 +63,7 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
         objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
         Pessoa paciente = SingUpRequest.toEntity(objDTO);
         paciente.setPerfis(perfis);
+        paciente.setAtivo(true);
         paciente = pessoaRepository.save(paciente);
         return SingUpRequest.toDTO(paciente);
     }

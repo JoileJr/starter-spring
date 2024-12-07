@@ -21,6 +21,8 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -59,8 +61,12 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public ProfissionalSaudeDTO create(ProfissionalSaudeRequest objDTO) {
         validateByEmailAndCpf(objDTO);
         Set<Perfil> perfis = getDefaultProfiles(objDTO.getPerfis());
+        if(objDTO.getSenha() != null){
+            objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
+        }
         ProfissionalSaude enfermeiro = ProfissionalSaudeRequest.toEntity(objDTO);
         enfermeiro.setPerfis(perfis);
+        enfermeiro.setAtivo(true);
         enfermeiro = enfermeiroRepository.save(enfermeiro);
         return ProfissionalSaudeDTO.toDTO(enfermeiro);
     }
@@ -69,6 +75,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Override
     public ProfissionalSaudeDTO update(Long id, ProfissionalSaudeRequest objDTO) {
         Optional<Pessoa> pessoaExistente = pessoaRepository.findById(objDTO.getId());
+        if (objDTO.getSenha() != null) {
+            objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
+        }
         ProfissionalSaude profissionalSaude = ProfissionalSaudeRequest.toEntity(objDTO);
         if (pessoaExistente.isPresent()) {
             profissionalSaude.setId(pessoaExistente.get().getId());
@@ -76,6 +85,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         }
         Set<Perfil> perfis = getDefaultProfiles(objDTO.getPerfis());
         profissionalSaude.setPerfis(perfis);
+        profissionalSaude.setAtivo(true);
         profissionalSaude = enfermeiroRepository.save(profissionalSaude);
         return ProfissionalSaudeDTO.toDTO(profissionalSaude);
     }
@@ -156,6 +166,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         if (dataFim != null) {
             predicates.add(cb.lessThanOrEqualTo(root.get("dataNascimento"), dataFim));
         }
+
+        predicates.add(cb.equal(root.get("ativo"), true));
 
         if (!predicates.isEmpty()) {
             query.where(cb.and(predicates.toArray(new Predicate[0])));

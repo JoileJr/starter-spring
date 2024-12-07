@@ -46,6 +46,9 @@ public class Parametro {
     @Column(name = "valorReferenciaMaximo")
     private String valorReferenciaMaximo;
 
+    @Column(name = "mascara")
+    private String mascara;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tipoExame_id")
     private TipoExame tipoExame;

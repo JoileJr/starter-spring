@@ -99,9 +99,12 @@ public class PacienteServiceImpl implements PacienteService {
         if (dataInicio != null) {
             predicates.add(cb.greaterThanOrEqualTo(root.get("dataNascimento"), dataInicio));
         }
+
         if (dataFim != null) {
             predicates.add(cb.lessThanOrEqualTo(root.get("dataNascimento"), dataFim));
         }
+
+        predicates.add(cb.equal(root.get("ativo"), true));
 
         if (!predicates.isEmpty()) {
             query.where(cb.and(predicates.toArray(new Predicate[0])));
@@ -124,6 +127,7 @@ public class PacienteServiceImpl implements PacienteService {
         }
         Pessoa paciente = PessoaDTO.toEntity(objDTO);
         paciente.setPerfis(perfis);
+        paciente.setAtivo(true);
         paciente = pessoaRepository.save(paciente);
         return PessoaDTO.toDTO(paciente);
     }
@@ -132,7 +136,11 @@ public class PacienteServiceImpl implements PacienteService {
     @Override
     public PessoaDTO update(Long Id, PessoaDTO objDTO) {
         objDTO.setId(Id);
+        if (objDTO.getSenha() != null) {
+            objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
+        }
         Pessoa paciente = PessoaDTO.toEntity(objDTO);
+        paciente.setAtivo(true);
         paciente = pessoaRepository.save(paciente);
         return PessoaDTO.toDTO(paciente);
     }

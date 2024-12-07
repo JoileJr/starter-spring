@@ -22,6 +22,9 @@ public class ParametroDTO {
     @NotNull(message = "O valor referencia maximo é requerido")
     private String valorReferenciaMaximo;
 
+    @NotNull(message = "O valor referencia maximo é requerido")
+    private String mascara;
+
     private TipoExameDTO tipoExame;
 
     public static Parametro toEntity(ParametroDTO dto) {
@@ -35,6 +38,7 @@ public class ParametroDTO {
         parametro.setUnidadeDeMedida(dto.getUnidadeDeMedida());
         parametro.setValorReferenciaMinimo(dto.getValorReferenciaMinimo());
         parametro.setValorReferenciaMaximo(dto.getValorReferenciaMaximo());
+        parametro.setMascara(dto.getMascara());
 
         // Conversão do TipoExame
         if (dto.getTipoExame() != null) {
@@ -55,6 +59,7 @@ public class ParametroDTO {
         dto.setUnidadeDeMedida(parametro.getUnidadeDeMedida());
         dto.setValorReferenciaMinimo(parametro.getValorReferenciaMinimo());
         dto.setValorReferenciaMaximo(parametro.getValorReferenciaMaximo());
+        dto.setMascara(parametro.getMascara());
 
         if (parametro.getTipoExame() != null) {
             dto.setTipoExame(TipoExameDTO.toDTO(parametro.getTipoExame()));

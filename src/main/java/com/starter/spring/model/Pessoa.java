@@ -45,6 +45,9 @@ public class Pessoa implements UserDetails {
     @Column(name = "senha")
     private String senha;
 
+    @Column(name = "ativo")
+    private Boolean ativo;
+
     @Column(name = "dataNascimento")
     private Date dataNascimento;
 

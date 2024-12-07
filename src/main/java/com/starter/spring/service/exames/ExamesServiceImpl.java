@@ -1,7 +1,6 @@
 package com.starter.spring.service.exames;
 
 import com.starter.spring.dto.models.ExameDTO;
-import com.starter.spring.dto.models.PessoaDTO;
 import com.starter.spring.dto.models.ResultadoParametroDTO;
 import com.starter.spring.dto.useCases.FindExamByFilterRequest;
 import com.starter.spring.model.Exame;
@@ -45,8 +44,7 @@ public class ExamesServiceImpl implements ExamesService {
 
         for (ResultadoParametroDTO resultadoParametro : exameDTO.getResultadoParametros()) {
             resultadoParametro.setExame(ExameDTO.toDTO(exame));
-            ResultadoParametro rp = this.resultadoParametroRepository
-                    .save(ResultadoParametroDTO.toEntity(resultadoParametro));
+            this.resultadoParametroRepository.save(ResultadoParametroDTO.toEntity(resultadoParametro));
         }
 
         return ExameDTO.toDTO(exame);
@@ -77,7 +75,7 @@ public class ExamesServiceImpl implements ExamesService {
         return rpsDTO;
     }
 
-    public List<Exame> findByFilters(FindExamByFilterRequest filter) {
+    private List<Exame> findByFilters(FindExamByFilterRequest filter) {
         String cpf = filter.getCpf();
         Date dataInicio = filter.getDataInicio();
         Date dataFim = filter.getDataFim();
@@ -111,6 +109,5 @@ public class ExamesServiceImpl implements ExamesService {
 
         return entityManager.createQuery(query).getResultList();
     }
-
 
 }
