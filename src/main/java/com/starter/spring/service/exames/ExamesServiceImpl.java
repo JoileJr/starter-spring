@@ -131,6 +131,7 @@ public class ExamesServiceImpl implements ExamesService {
     public void excluirExame(Long id) {
         Exame exame = this.exameRepository.findById(id).get();
         exame.setAtivo(false);
+        this.exameRepository.save(exame);
     }
 
     private List<Exame> findByFilters(FindExamByFilterRequest filter) {
@@ -166,6 +167,7 @@ public class ExamesServiceImpl implements ExamesService {
         }
 
         query.where(predicates.toArray(new Predicate[0]));
+        query.orderBy(cb.desc(exame.get("dataExame")));
 
         return entityManager.createQuery(query).getResultList();
     }
