@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.starter.spring.dto.models.LaboratorioDTO;
-import com.starter.spring.dto.models.PerfilDTO;
 import com.starter.spring.dto.models.PessoaDTO;
 import com.starter.spring.dto.useCases.FilterPersonsRequest;
 import com.starter.spring.enums.TipoUsuario;

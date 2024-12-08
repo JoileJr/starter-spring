@@ -62,7 +62,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public ProfissionalSaudeDTO create(ProfissionalSaudeRequest objDTO) {
         validateByEmailAndCpf(objDTO);
         Set<Perfil> perfis = getDefaultProfiles(objDTO.getPerfis());
-        if(objDTO.getSenha() != null){
+        if (objDTO.getSenha() != null) {
             objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
         }
         ProfissionalSaude enfermeiro = ProfissionalSaudeRequest.toEntity(objDTO);
@@ -76,10 +76,12 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Override
     public ProfissionalSaudeDTO update(Long id, ProfissionalSaudeRequest objDTO) {
         Optional<Pessoa> pessoaExistente = pessoaRepository.findById(objDTO.getId());
-        if(!pessoaExistente.isPresent()){
+        if (!pessoaExistente.isPresent()) {
             throw new DataIntegrityViolationException("Tentou atualizar uma pessoa inexistente!");
         }
-        objDTO.setLaboratorio(LaboratorioDTO.toDTO(pessoaExistente.get().getLaboratorio()));
+        if(pessoaExistente.get().getLaboratorio() != null){
+            objDTO.setLaboratorio(LaboratorioDTO.toDTO(pessoaExistente.get().getLaboratorio()));
+        }
         if (objDTO.getSenha() != null) {
             objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
         } else {
@@ -131,6 +133,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         String registroProfissional = obj.getRegistroProfissional();
         Date dataInicio = obj.getDataInicio();
         Date dataFim = obj.getDataFim();
+        LaboratorioDTO laboratorioDTO = obj.getLaboratorio();
 
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<ProfissionalSaude> query = cb.createQuery(ProfissionalSaude.class);
@@ -147,7 +150,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         }
 
         if (registroProfissional != null && !registroProfissional.isEmpty()) {
-            predicates.add(cb.like(cb.lower(root.get("registroProfissional")), "%" + registroProfissional.toLowerCase() + "%"));
+            predicates.add(cb.like(cb.lower(root.get("registroProfissional")),
+                    "%" + registroProfissional.toLowerCase() + "%"));
         }
 
         if (cpf != null && !cpf.isEmpty()) {
@@ -170,6 +174,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             predicates.add(cb.lessThanOrEqualTo(root.get("dataNascimento"), dataFim));
         }
 
+        if (laboratorioDTO != null && laboratorioDTO.getId() != null) {
+            predicates.add(cb.equal(root.get("laboratorio").get("id"), laboratorioDTO.getId()));
+        }
+
         predicates.add(cb.equal(root.get("ativo"), true));
 
         if (!predicates.isEmpty()) {
@@ -181,6 +189,13 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         return pessoas.stream()
                 .map(ProfissionalSaudeDTO::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void demitirFuncionario(Long id) {
+        ProfissionalSaude obj = enfermeiroRepository.findById(id).orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id));
+        obj.setLaboratorio(null);
+        enfermeiroRepository.save(obj);
     }
 
 }

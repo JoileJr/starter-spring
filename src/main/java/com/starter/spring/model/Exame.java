@@ -53,7 +53,7 @@ public class Exame {
     @JoinColumn(name = "tipoexame_id")
     private TipoExame tipoExame;
 
-//    @OneToMany(mappedBy = "exame", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private List<ResultadoParametro> resultadoParametros;
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo;
 
 }

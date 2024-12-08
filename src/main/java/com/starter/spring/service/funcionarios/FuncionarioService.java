@@ -17,5 +17,6 @@ public interface FuncionarioService {
     ProfissionalSaudeDTO update(Long Id , ProfissionalSaudeRequest objDTO);
 
     List<ProfissionalSaudeDTO> findByFilter(FilterHealthProfessionalRequest obj);
-
+    
+    void demitirFuncionario(Long id);
 }

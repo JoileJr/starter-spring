@@ -43,7 +43,7 @@ public class PacienteController {
     }
 
     @GetMapping(value = "/find/{cpf}")
-    public ResponseEntity<PessoaDTO> findById(@PathVariable String cpf) {
+    public ResponseEntity<PessoaDTO> findByCpf(@PathVariable String cpf) {
         PessoaDTO obj = pacienteService.findByCpf(cpf);
         return ResponseEntity.ok().body(obj);
     }

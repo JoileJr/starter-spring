@@ -78,6 +78,7 @@ public class ExamesServiceImpl implements ExamesService {
     @Override
     public ExameDTO criarExame(ExameDTO exameDTO) {
         Exame exame = ExameDTO.toEntity(exameDTO);
+        exame.setAtivo(true);
         exame = exameRepository.save(exame);
 
         for (ResultadoParametroDTO resultadoParametro : exameDTO.getResultadoParametros()) {
@@ -126,6 +127,12 @@ public class ExamesServiceImpl implements ExamesService {
         return rpsDTO;
     }
 
+    @Override
+    public void excluirExame(Long id) {
+        Exame exame = this.exameRepository.findById(id).get();
+        exame.setAtivo(false);
+    }
+
     private List<Exame> findByFilters(FindExamByFilterRequest filter) {
         String cpf = filter.getCpf();
         Date dataInicio = filter.getDataInicio();
@@ -150,6 +157,8 @@ public class ExamesServiceImpl implements ExamesService {
         if (dataFim != null) {
             predicates.add(cb.lessThanOrEqualTo(exame.get("dataExame"), dataFim));
         }
+
+        predicates.add(cb.equal(exame.get("ativo"), true));
 
         if (tipoExameId != null) {
             Join<Exame, TipoExame> tipoExame = exame.join("tipoExame");

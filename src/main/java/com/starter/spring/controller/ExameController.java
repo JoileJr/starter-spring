@@ -72,4 +72,10 @@ public class ExameController {
         }
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<ExameDTO> excluirExame(@PathVariable Long id) {
+        examesService.excluirExame(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

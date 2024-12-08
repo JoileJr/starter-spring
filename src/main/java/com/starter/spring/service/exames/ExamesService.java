@@ -20,4 +20,6 @@ public interface ExamesService {
 
     ExameDTO listarExamesPorID(Long id);
 
+    void excluirExame(Long id);
+
 }
