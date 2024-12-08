@@ -3,8 +3,10 @@ package com.starter.spring.controller;
 import com.starter.spring.dto.models.ExameDTO;
 import com.starter.spring.dto.models.ResultadoParametroDTO;
 import com.starter.spring.dto.useCases.FindExamByFilterRequest;
+import com.starter.spring.service.email.EmailService;
 import com.starter.spring.service.exames.ExamesService;
 
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ import java.util.List;
 public class ExameController {
 
     private final ExamesService examesService;
+    private final EmailService emailService;
 
     @PostMapping("/list")
     public ResponseEntity<List<ExameDTO>> listarExames(@RequestBody FindExamByFilterRequest filter) {
@@ -41,16 +44,32 @@ public class ExameController {
     @PostMapping("/")
     public ResponseEntity<ExameDTO> create(@Valid @RequestBody ExameDTO obj) {
         ExameDTO firstEntityDTO = examesService.criarExame(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(firstEntityDTO.getId()).toUri();
+        try {
+            emailService.enviarEmailComAnexo(firstEntityDTO.getId());
+        } catch (MessagingException e) {
+            System.out.println(e);
+        }
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(firstEntityDTO.getId())
+                .toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("/relatorio/pdf/{code}")
     public void exportRelatorio(@PathVariable("code") Long code,
-                                HttpServletResponse response) throws IOException {
+            HttpServletResponse response) throws IOException {
         byte[] bytes = examesService.exportarPDF(code);
         response.setContentType(MediaType.APPLICATION_PDF_VALUE);
         response.getOutputStream().write(bytes);
+    }
+
+    @GetMapping("/enviar-resultado/{id}")
+    public String enviarResultadoExame(@PathVariable Long id) {
+        try {
+            emailService.enviarEmailComAnexo(id);
+            return "E-mail enviado com sucesso!";
+        } catch (MessagingException e) {
+            return "Erro ao enviar o e-mail: " + e.getMessage();
+        }
     }
 
 }

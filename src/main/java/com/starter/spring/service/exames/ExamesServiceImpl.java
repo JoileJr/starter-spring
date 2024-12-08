@@ -59,7 +59,7 @@ public class ExamesServiceImpl implements ExamesService {
     }
 
     @Override
-    public byte[] exportarPDF(Long code){
+    public byte[] exportarPDF(Long code) {
         byte[] bytes = null;
         try {
             this.addParams(JASPER_PARAM, code);
@@ -103,6 +103,19 @@ public class ExamesServiceImpl implements ExamesService {
             examesDTO.add(dto);
         }
         return examesDTO;
+    }
+
+    @Transactional
+    @Override
+    public ExameDTO listarExamesPorID(Long id) {
+        Exame exame = this.exameRepository.findById(id).get();
+        ExameDTO exameDTO = new ExameDTO();
+
+        List<ResultadoParametro> rps = resultadoParametroRepository.findByExame_IdAndParametro_TipoExame_Id(exame.getId(), exame.getTipoExame().getId());
+        List<ResultadoParametroDTO> rpsDTO = rps.stream().map(ResultadoParametroDTO::toDTO).toList();
+        exameDTO = ExameDTO.toDTO(exame);
+        exameDTO.setResultadoParametros(rpsDTO);
+        return exameDTO;
     }
 
     @Transactional

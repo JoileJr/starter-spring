@@ -18,4 +18,6 @@ public interface ExamesService {
 
     List<ResultadoParametroDTO> listarResultados(Long IdExame);
 
+    ExameDTO listarExamesPorID(Long id);
+
 }

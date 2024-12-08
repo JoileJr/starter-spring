@@ -1,5 +1,6 @@
 package com.starter.spring.service.funcionarios;
 
+import com.starter.spring.dto.models.LaboratorioDTO;
 import com.starter.spring.dto.models.ProfissionalSaudeDTO;
 import com.starter.spring.dto.useCases.FilterHealthProfessionalRequest;
 import com.starter.spring.dto.useCases.ProfissionalSaudeRequest;
@@ -75,21 +76,23 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Override
     public ProfissionalSaudeDTO update(Long id, ProfissionalSaudeRequest objDTO) {
         Optional<Pessoa> pessoaExistente = pessoaRepository.findById(objDTO.getId());
+        if(!pessoaExistente.isPresent()){
+            throw new DataIntegrityViolationException("Tentou atualizar uma pessoa inexistente!");
+        }
+        objDTO.setLaboratorio(LaboratorioDTO.toDTO(pessoaExistente.get().getLaboratorio()));
         if (objDTO.getSenha() != null) {
             objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
+        } else {
+            objDTO.setSenha(pessoaExistente.get().getSenha());
         }
         ProfissionalSaude profissionalSaude = ProfissionalSaudeRequest.toEntity(objDTO);
-        if (pessoaExistente.isPresent()) {
-            profissionalSaude.setId(pessoaExistente.get().getId());
-            profissionalSaude.setSenha(pessoaExistente.get().getSenha());
-        }
+        profissionalSaude.setId(pessoaExistente.get().getId());
         Set<Perfil> perfis = getDefaultProfiles(objDTO.getPerfis());
         profissionalSaude.setPerfis(perfis);
         profissionalSaude.setAtivo(true);
         profissionalSaude = enfermeiroRepository.save(profissionalSaude);
         return ProfissionalSaudeDTO.toDTO(profissionalSaude);
     }
-
 
     private void validateByEmailAndCpf(ProfissionalSaudeRequest objDTO) {
         Optional<Pessoa> obj = pessoaRepository.findByCpfOrEmail(objDTO.getCpf(), objDTO.getEmail());

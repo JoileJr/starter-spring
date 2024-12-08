@@ -3,6 +3,8 @@ package com.starter.spring.service.paciente;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.starter.spring.dto.models.LaboratorioDTO;
+import com.starter.spring.dto.models.PerfilDTO;
 import com.starter.spring.dto.models.PessoaDTO;
 import com.starter.spring.dto.useCases.FilterPersonsRequest;
 import com.starter.spring.enums.TipoUsuario;
@@ -134,15 +136,31 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Transactional
     @Override
-    public PessoaDTO update(Long Id, PessoaDTO objDTO) {
-        objDTO.setId(Id);
-        if (objDTO.getSenha() != null) {
-            objDTO.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
+    public PessoaDTO update(Long id, PessoaDTO objDTO) {
+        Optional<Pessoa> pacienteExistenteOpt = pessoaRepository.findById(id);
+        if (!pacienteExistenteOpt.isPresent()) {
+            throw new DataIntegrityViolationException("Tentou atualizar uma pessoa inexistente!");
         }
-        Pessoa paciente = PessoaDTO.toEntity(objDTO);
-        paciente.setAtivo(true);
-        paciente = pessoaRepository.save(paciente);
-        return PessoaDTO.toDTO(paciente);
+
+        Pessoa pacienteExistente = pacienteExistenteOpt.get();
+        objDTO.setLaboratorio(LaboratorioDTO.toDTO(pacienteExistente.getLaboratorio()));
+
+        if (objDTO.getSenha() != null) {
+            pacienteExistente.setSenha(new BCryptPasswordEncoder().encode(objDTO.getSenha()));
+        } else {
+            objDTO.setSenha(pacienteExistente.getSenha());
+        }
+
+        pacienteExistente.setNome(objDTO.getNome());
+        pacienteExistente.setCpf(objDTO.getCpf());
+        pacienteExistente.setTelefone(objDTO.getTelefone());
+        pacienteExistente.setSexo(objDTO.getSexo());
+        pacienteExistente.setEmail(objDTO.getEmail());
+        pacienteExistente.setDataNascimento(objDTO.getDataNascimento());
+
+        Pessoa pessoaAtualizada = pessoaRepository.save(pacienteExistente);
+
+        return PessoaDTO.toDTO(pessoaAtualizada);
     }
 
     private void validateByEmailAndCpf(PessoaDTO objDTO) {
