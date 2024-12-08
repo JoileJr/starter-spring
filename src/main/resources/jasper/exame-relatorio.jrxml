@@ -7,10 +7,20 @@
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
 	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
-	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+	<style name="Row" mode="Opaque" fontName="Times New Roman" pdfFontName="Times-Roman">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
 			<style mode="Opaque" backcolor="#EEEFF0"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{nivel_de_alerta}.equals("Alto")
+]]></conditionExpression>
+			<style mode="Opaque" forecolor="#990000"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{nivel_de_alerta}.equals("Médio")
+]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF9900"/>
 		</conditionalStyle>
 	</style>
 	<style name="Table">
@@ -51,6 +61,32 @@
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
 			<style backcolor="#D8D8D8"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{nivel_de_alerta}.equals("Alto")
+]]></conditionExpression>
+			<style mode="Opaque" forecolor="#990000"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{nivel_de_alerta}.equals("Médio")
+]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF9900"/>
+		</conditionalStyle>
+	</style>
+	<style name="CoresAlternadas" mode="Opaque" backcolor="#FFFFFF">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F2F2F2"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{nivel_de_alerta}.equals("Alto")
+]]></conditionExpression>
+			<style mode="Opaque" forecolor="#990000"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{nivel_de_alerta}.equals("Médio")
+]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF9900"/>
 		</conditionalStyle>
 	</style>
 	<subDataset name="tableDataset" uuid="f13e6d36-5148-4ecc-bbe3-3035def80980">
@@ -99,7 +135,7 @@ JOIN
     endereco le ON l.endereco_id = le.id
 LEFT JOIN 
     tipo_exame te ON e.tipoexame_id = te.id
-  WHERE e.id = $P{ExameID} ]]>
+  WHERE e.id = $P{ExameID}]]>
 	</queryString>
 	<field name="resultado_parametro_id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
@@ -312,7 +348,7 @@ LEFT JOIN
 				<textFieldExpression><![CDATA["Resultados"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="0" width="80" height="72" forecolor="#007BFF" uuid="d2b10e62-4005-4d49-9fcf-00879a0c5319"/>
+				<reportElement x="0" y="0" width="80" height="40" forecolor="#007BFF" uuid="d2b10e62-4005-4d49-9fcf-00879a0c5319"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial Black" size="26"/>
 				</textElement>
@@ -344,37 +380,37 @@ LEFT JOIN
 	<columnHeader>
 		<band height="30">
 			<rectangle>
-				<reportElement x="0" y="0" width="556" height="30" backcolor="#007BFF" uuid="542b3aec-d71e-4d7f-99b1-9a9e05547cbf"/>
+				<reportElement x="0" y="0" width="555" height="30" backcolor="#007BFF" uuid="542b3aec-d71e-4d7f-99b1-9a9e05547cbf"/>
 				<graphicElement>
 					<pen lineColor="rgba(0, 0, 0, 0.0)"/>
 				</graphicElement>
 			</rectangle>
 			<textField>
 				<reportElement x="0" y="0" width="95" height="30" forecolor="#FFFFFF" backcolor="#007BFF" uuid="f8c6ddd4-b14c-4141-9388-5b7cce2c05e6"/>
-				<box leftPadding="5"/>
+				<box leftPadding="4"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="10" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Parametro"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="95" y="0" width="94" height="30" forecolor="#FFFFFF" backcolor="#007BFF" uuid="0abe54f2-30a6-4d59-826f-b780f4d4d2b3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="10" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Resultado"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="189" y="0" width="95" height="30" forecolor="#FFFFFF" backcolor="#007BFF" uuid="48e58b42-d83e-4f05-a03e-c4db80bba6fa"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="10" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Unidade de Medida"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="284" y="0" width="196" height="30" forecolor="#FFFFFF" backcolor="#007BFF" uuid="63c6beb0-22a1-4a66-9555-a84aec3060f8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="10" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Valores de Referencia (min) e (max)"]]></textFieldExpression>
 			</textField>
@@ -382,59 +418,75 @@ LEFT JOIN
 				<reportElement x="480" y="0" width="75" height="30" forecolor="#FFFFFF" backcolor="#007BFF" uuid="cdeb72c4-73c6-4a37-ada5-16a737234094"/>
 				<box rightPadding="5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="10" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Nivel de Alerta"]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="55">
+		<band height="50">
 			<textField>
-				<reportElement x="0" y="0" width="96" height="24" uuid="83ceb471-64b1-4a62-be54-da21117ca4dd"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<reportElement style="CoresAlternadas" x="0" y="0" width="96" height="24" uuid="83ceb471-64b1-4a62-be54-da21117ca4dd"/>
+				<box padding="4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nome_parametro}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="96" y="0" width="94" height="24" uuid="d440dbb6-05e3-4214-9df2-01b0e66435f4">
+				<reportElement style="CoresAlternadas" x="96" y="0" width="94" height="24" uuid="d440dbb6-05e3-4214-9df2-01b0e66435f4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="669f3570-5271-40c1-a7eb-5042b5f8e522"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{resultado}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="190" y="0" width="95" height="24" uuid="54701271-2816-4618-b373-520a7df835df">
+				<reportElement style="CoresAlternadas" x="190" y="0" width="95" height="24" uuid="54701271-2816-4618-b373-520a7df835df">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5aac4b1b-25cd-40d4-b85a-62c70a38853f"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{unidade_de_medida}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="284" y="0" width="96" height="24" uuid="14e665b2-17d0-4da0-9356-4476aab64e23">
+				<reportElement style="CoresAlternadas" x="284" y="0" width="96" height="24" uuid="14e665b2-17d0-4da0-9356-4476aab64e23">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7c3af06e-d170-4b8b-a6d5-337bb294c2f3"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{valor_referencia_minimo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="0" width="100" height="24" uuid="6ebcf488-f72a-4985-a3fc-942474717686">
+				<reportElement style="CoresAlternadas" x="380" y="0" width="100" height="24" uuid="6ebcf488-f72a-4985-a3fc-942474717686">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b405f207-54d5-464b-85ba-350efdb7852b"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{valor_referencia_maximo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="480" y="0" width="74" height="24" uuid="32eaf33a-8096-4f19-853c-4438cdbadd86">
+				<reportElement style="CoresAlternadas" x="479" y="0" width="76" height="24" uuid="32eaf33a-8096-4f19-853c-4438cdbadd86">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="24b58a43-0259-405d-82dd-20df34a267e4"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nivel_de_alerta}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="24" width="265" height="16" uuid="254d92cd-8e5f-41b1-909f-1c010faaa881">
+				<reportElement style="CoresAlternadas" x="0" y="24" width="555" height="26" uuid="254d92cd-8e5f-41b1-909f-1c010faaa881">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="777320a7-cabb-45ed-abcd-fa2f56704310"/>
 				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<box padding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA["Observações: " + $F{observacao}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -442,7 +494,7 @@ LEFT JOIN
 	<pageFooter>
 		<band height="28">
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="0" y="-2" width="556" height="30" backcolor="#E6E8E9" uuid="36aa233d-4305-48e6-974a-1bbf89bb3c8f"/>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="-2" width="555" height="30" backcolor="#E6E8E9" uuid="36aa233d-4305-48e6-974a-1bbf89bb3c8f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Serif" size="9" isItalic="true"/>
 				</textElement>
