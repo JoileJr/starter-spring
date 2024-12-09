@@ -138,7 +138,7 @@ public class PacienteServiceImpl implements PacienteService {
     public PessoaDTO update(Long id, PessoaDTO objDTO) {
         Optional<Pessoa> pacienteExistenteOpt = pessoaRepository.findById(id);
         if (!pacienteExistenteOpt.isPresent()) {
-            throw new DataIntegrityViolationException("Tentou atualizar uma pessoa inexistente!");
+            throw new ObjectnotFoundException("Tentou atualizar uma pessoa inexistente!");
         }
 
         Pessoa pacienteExistente = pacienteExistenteOpt.get();

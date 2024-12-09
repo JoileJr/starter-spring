@@ -9,6 +9,8 @@ import com.starter.spring.repository.PessoaRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -79,12 +81,14 @@ class PacienteServiceImplTest {
         PessoaDTO pacienteDTO = this.criaPaciente();
         Pessoa paciente = PessoaDTO.toEntity(pacienteDTO);
 
+        when(pessoaRepository.findById(pacienteDTO.getId())).thenReturn(Optional.of(paciente));
         when(pessoaRepository.save(any(Pessoa.class))).thenReturn(paciente);
 
         PessoaDTO result = pacienteService.update(pacienteDTO.getId(), pacienteDTO);
 
         assertNotNull(result);
         verify(pessoaRepository).save(any(Pessoa.class));
+        verify(pessoaRepository).findById(pacienteDTO.getId()); 
     }
 
     @Test
@@ -117,28 +121,27 @@ class PacienteServiceImplTest {
         Long id = 1L;
         PessoaDTO pacienteDTO = this.criaPaciente();
         pacienteDTO.setId(id);
-
-        when(pessoaRepository.save(any(Pessoa.class))).thenThrow(new ObjectnotFoundException("Objeto não encontrado! Id: " + id));
-
+    
+        when(pessoaRepository.findById(id)).thenReturn(Optional.empty());
+    
         assertThrows(ObjectnotFoundException.class, () -> {
             pacienteService.update(id, pacienteDTO);
         });
-
-        verify(pessoaRepository).save(any(Pessoa.class));
+    
+        verify(pessoaRepository).findById(id);
+        verify(pessoaRepository, never()).save(any(Pessoa.class));
     }
 
     @Test
     void testUpdate_WithExistingCpfOrEmail() {
         PessoaDTO pacienteDTO = this.criaPaciente();
-        when(pessoaRepository.findByCpfOrEmail(anyString(), anyString())).thenReturn(Optional.of(new Pessoa()));
-
-        assertThrows(DataIntegrityViolationException.class, () -> {
+        when(pessoaRepository.findByCpfOrEmail(anyString(), anyString())).thenReturn(Optional.of(new Pessoa()));    
+        assertThrows(ObjectnotFoundException.class, () -> {
             pacienteService.update(pacienteDTO.getId(), pacienteDTO);
         });
-
-        verify(pessoaRepository).findByCpfOrEmail(anyString(), anyString());
         verify(pessoaRepository, never()).save(any(Pessoa.class));
     }
+    
 
     private PessoaDTO criaPaciente() {
         PessoaDTO pacienteDTO = new PessoaDTO();
