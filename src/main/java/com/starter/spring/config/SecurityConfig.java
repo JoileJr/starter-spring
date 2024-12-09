@@ -32,6 +32,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/sing-up").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/exam/res/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/exam/relatorio/pdf/{code}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

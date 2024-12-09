@@ -35,6 +35,12 @@ public class ExameController {
         return ResponseEntity.ok(list);
     }
 
+    @GetMapping("/res/{id}")
+    public ResponseEntity<ExameDTO> listarExamesPorID(@PathVariable Long id) {
+        ExameDTO dto = examesService.listarExamesPorID(id);
+        return ResponseEntity.ok(dto);
+    }   
+
     @GetMapping("/{id}")
     public ResponseEntity<List<ResultadoParametroDTO>> listarResultados(@PathVariable Long id) {
         List<ResultadoParametroDTO> list = examesService.listarResultados(id);
