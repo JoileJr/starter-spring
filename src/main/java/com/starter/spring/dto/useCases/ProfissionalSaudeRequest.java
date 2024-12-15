@@ -36,7 +36,6 @@ public class ProfissionalSaudeRequest {
     @NotNull(message = "O perfil é obrigatório")
     private String perfis;
 
-    @NotNull(message = "O registro profissional é requerido")
     private String registroProfissional;
 
     @NotNull(message = "O tipo de profissional é requerido")

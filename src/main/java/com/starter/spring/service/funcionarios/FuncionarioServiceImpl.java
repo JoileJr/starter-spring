@@ -79,7 +79,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         if (!pessoaExistente.isPresent()) {
             throw new DataIntegrityViolationException("Tentou atualizar uma pessoa inexistente!");
         }
-        if(pessoaExistente.get().getLaboratorio() != null){
+        if (pessoaExistente.get().getLaboratorio() != null) {
             objDTO.setLaboratorio(LaboratorioDTO.toDTO(pessoaExistente.get().getLaboratorio()));
         }
         if (objDTO.getSenha() != null) {
@@ -114,6 +114,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             perfil = perfilRepository.findByNome(TipoUsuario.TECNICO_ENFERMAGEM.getDescricao());
         } else if (perfisBuscar.equals(TipoUsuario.MEDICO.getDescricao())) {
             perfil = perfilRepository.findByNome(TipoUsuario.MEDICO.getDescricao());
+        } else if (perfisBuscar.equals(TipoUsuario.ADMINSTRATIVO.getDescricao())) {
+            perfil = perfilRepository.findByNome(TipoUsuario.ADMINSTRATIVO.getDescricao());
         } else {
             perfil = perfilRepository.findByNome(TipoUsuario.PACIENTE.getDescricao());
         }
@@ -193,7 +195,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     @Override
     public void demitirFuncionario(Long id) {
-        ProfissionalSaude obj = enfermeiroRepository.findById(id).orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id));
+        ProfissionalSaude obj = enfermeiroRepository.findById(id)
+                .orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id));
         obj.setLaboratorio(null);
         enfermeiroRepository.save(obj);
     }
