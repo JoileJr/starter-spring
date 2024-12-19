@@ -50,11 +50,6 @@ public class ExameController {
     @PostMapping("/")
     public ResponseEntity<ExameDTO> create(@Valid @RequestBody ExameDTO obj) {
         ExameDTO firstEntityDTO = examesService.criarExame(obj);
-        try {
-            emailService.enviarEmailComAnexo(firstEntityDTO.getId());
-        } catch (MessagingException e) {
-            System.out.println(e);
-        }
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(firstEntityDTO.getId())
                 .toUri();
         return ResponseEntity.created(uri).build();
